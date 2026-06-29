@@ -3,6 +3,7 @@ import { GeistSans } from "geist/font/sans";
 import { GeistMono } from "geist/font/mono";
 import { SmoothScroll } from "@/components/common/SmoothScroll";
 import { Nav } from "@/components/nav/Nav";
+import { AxeReporter } from "@/components/common/AxeReporter";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -26,10 +27,18 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="pt-BR" className={`${GeistSans.variable} ${GeistMono.variable}`}>
       <body>
+        {/* Skip-link — WCAG 2.4.1: pula a nav, visível só no foco */}
+        <a
+          href="#main"
+          className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[100] focus:rounded-md focus:bg-[var(--color-bg-elevated)] focus:px-4 focus:py-2 focus:text-[var(--color-fg)]"
+        >
+          Pular para o conteúdo
+        </a>
         <SmoothScroll>
           <Nav />
-          <main>{children}</main>
+          <main id="main">{children}</main>
         </SmoothScroll>
+        <AxeReporter />
       </body>
     </html>
   );

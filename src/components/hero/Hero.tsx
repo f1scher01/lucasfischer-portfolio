@@ -16,8 +16,8 @@ const BendingBeam = dynamic(
 export function Hero() {
   return (
     <section className="relative min-h-screen overflow-hidden">
-      {/* Visualização — atrás do conteúdo */}
-      <div className="absolute inset-0 z-0">
+      {/* Visualização — atrás do conteúdo. Decorativa: oculta de leitores de tela. */}
+      <div className="absolute inset-0 z-0" aria-hidden="true">
         <BendingBeam />
       </div>
 

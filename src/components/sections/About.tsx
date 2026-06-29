@@ -2,7 +2,11 @@ import { ScrollReveal } from "@/components/common/ScrollReveal";
 
 export function About() {
   return (
-    <section id="about" className="border-t border-[var(--color-border)] py-32">
+    <section
+      id="about"
+      aria-label="About"
+      className="border-t border-[var(--color-border)] py-32"
+    >
       <div className="container-x grid gap-16 md:grid-cols-12">
         <ScrollReveal className="md:col-span-3">
           <p className="caption text-[var(--color-fg-muted)]">About</p>

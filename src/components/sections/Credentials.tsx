@@ -11,7 +11,11 @@ const CERTIFICATIONS = [
 
 export function Credentials() {
   return (
-    <section id="credentials" className="border-t border-[var(--color-border)] py-32">
+    <section
+      id="credentials"
+      aria-label="Credentials"
+      className="border-t border-[var(--color-border)] py-32"
+    >
       <div className="container-x grid gap-16 md:grid-cols-12">
         <ScrollReveal className="md:col-span-3">
           <p className="caption text-[var(--color-fg-muted)]">Credentials</p>

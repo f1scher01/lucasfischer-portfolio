@@ -60,10 +60,11 @@ export function Nav() {
             <li key={s}>
               <a
                 href={`#${s}`}
+                aria-current={active === s ? "true" : undefined}
                 className={cn(
-                  "caption transition-colors hover:text-[var(--color-fg)]",
+                  "caption underline-offset-4 transition-colors hover:text-[var(--color-fg)]",
                   active === s
-                    ? "text-[var(--color-accent)]"
+                    ? "text-[var(--color-accent)] underline"
                     : "text-[var(--color-fg-muted)]",
                 )}
               >

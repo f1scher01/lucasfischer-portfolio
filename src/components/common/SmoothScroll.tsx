@@ -1,6 +1,7 @@
 "use client";
 
 import { ReactNode, useEffect } from "react";
+import { MotionConfig } from "motion/react";
 import Lenis from "lenis";
 
 export function SmoothScroll({ children }: { children: ReactNode }) {
@@ -26,5 +27,7 @@ export function SmoothScroll({ children }: { children: ReactNode }) {
     return () => lenis.destroy();
   }, []);
 
-  return <>{children}</>;
+  // reducedMotion="user" faz o Motion respeitar prefers-reduced-motion
+  // globalmente (zera transforms/opacity animados em todo o site).
+  return <MotionConfig reducedMotion="user">{children}</MotionConfig>;
 }
