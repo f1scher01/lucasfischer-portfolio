@@ -23,9 +23,15 @@ export function Toolkit() {
   return (
     <section id="toolkit" className="border-t border-[var(--color-border)] py-32">
       <div className="container-x">
+        <ScrollReveal className="mb-12 flex items-center gap-4">
+          <span className="font-mono text-sm text-[var(--color-accent)]">03</span>
+          <span className="h-px flex-1 bg-[var(--color-border)]" />
+          <p className="caption text-[var(--color-fg-muted)]">Toolkit</p>
+        </ScrollReveal>
+
         <ScrollReveal className="mb-16">
           <h2 className="font-display text-4xl md:text-6xl tracking-tight">
-            Toolkit
+            Ferramentas
           </h2>
           <p className="mt-4 max-w-xl text-[var(--color-fg-muted)]">
             Cada ferramenta com aplicação real em projeto, não apenas vista em

@@ -3,9 +3,20 @@ import { ContactForm } from "@/components/sections/ContactForm";
 
 export function Contact() {
   return (
-    <section id="contact" className="border-t border-[var(--color-border)] py-32">
+    <section
+      id="contact"
+      className="relative overflow-hidden border-t border-[var(--color-border)] py-32"
+    >
+      {/* glow accent — calor no fim da página */}
+      <div
+        aria-hidden
+        className="pointer-events-none absolute -bottom-40 left-1/4 h-[28rem] w-[28rem] -translate-x-1/2 rounded-full bg-[var(--color-accent)] opacity-[0.08] blur-[140px]"
+      />
+
       <div className="container-x">
-        <ScrollReveal className="mb-12">
+        <ScrollReveal className="mb-12 flex items-center gap-4">
+          <span className="font-mono text-sm text-[var(--color-accent)]">05</span>
+          <span className="h-px flex-1 bg-[var(--color-border)]" />
           <p className="caption text-[var(--color-fg-muted)]">Contact</p>
         </ScrollReveal>
 
@@ -35,7 +46,7 @@ export function Contact() {
               </a>{" "}
               ·{" "}
               <a
-                href="mailto:lucasf22games@gmail.com"
+                href="mailto:fischer.paez@gmail.com"
                 className="text-[var(--color-accent)] underline-offset-4 hover:underline"
               >
                 Email

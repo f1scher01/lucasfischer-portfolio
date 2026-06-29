@@ -28,7 +28,7 @@ export function Footer() {
           </li>
           <li>
             <a
-              href="mailto:lucasf22games@gmail.com"
+              href="mailto:fischer.paez@gmail.com"
               className="caption transition-colors hover:text-[var(--color-accent)]"
             >
               Email

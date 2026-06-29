@@ -4,6 +4,7 @@ import { GeistMono } from "geist/font/mono";
 import { SmoothScroll } from "@/components/common/SmoothScroll";
 import { Nav } from "@/components/nav/Nav";
 import { AxeReporter } from "@/components/common/AxeReporter";
+import { Grain } from "@/components/common/Grain";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -38,6 +39,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <Nav />
           <main id="main">{children}</main>
         </SmoothScroll>
+        <Grain />
         <AxeReporter />
       </body>
     </html>

@@ -6,42 +6,39 @@ import { ScrollReveal } from "@/components/common/ScrollReveal";
 
 interface Project {
   title: string;
-  slug?: string; // só projetos com página /projects/[slug]
+  slug?: string; // página interna /projects/[slug]
+  href?: string; // link externo
   role: string;
-  year: string;
   blurb: string;
   tags: string[];
 }
 
 const PROJECTS: Project[] = [
   {
-    title: "Maua Racing — Vehicle Dynamics",
-    slug: "maua-racing",
-    role: "Trainee · FSAE",
-    year: "2026",
+    title: "Tecnologia Assistiva",
+    slug: "tecnologia-assistiva",
+    role: "Projeto Integrador Extensionista",
     blurb:
-      "Análise de suspensão e telemetria do protótipo. Aplicação de Telemetria para Competições Acadêmicas em decisões de setup.",
-    tags: ["Telemetria", "Suspensão", "CAD"],
+      "Engenharia aplicada à acessibilidade — projeto extensionista no IMT, unindo CAD e necessidades reais de mobilidade.",
+    tags: ["Extensão", "CAD", "Impacto social"],
   },
   {
-    title: "Projeto Extensão — Tecnologia Assistiva",
-    role: "CAD/CAE Engineer",
-    year: "2026",
+    title: "Otimização Estrutural Veicular",
+    role: "Acadêmico · CAE",
     blurb:
-      "Aplicação de SolidWorks e Ansys em soluções de acessibilidade para população com restrição de mobilidade.",
-    tags: ["SolidWorks", "Ansys", "Impacto Social"],
+      "Dimensionamento e otimização de estruturas veiculares — equilíbrio entre rigidez, massa e segurança via simulação.",
+    tags: ["Ansys", "FEM", "Estrutura"],
   },
   {
-    title: "Sites Premium — Design Engineering",
-    role: "Independent",
-    year: "2025—2026",
+    title: "Engenharia Digital — Web Premium",
+    href: "https://github.com/lucasf22games-png/lucasfischer-portfolio",
+    role: "Independente",
     blurb:
-      "Construção de sites com Next.js + R3F + Motion para marcas que querem alto padrão visual e performance Lighthouse 95+.",
-    tags: ["Next.js", "R3F", "Motion"],
+      "Este portfólio: Next.js + React Three Fiber com física real (Euler-Bernoulli) na viga do topo. Performance Lighthouse-first.",
+    tags: ["Next.js", "R3F", "Performance"],
   },
 ];
 
-// Container orquestra o stagger; cada item entra com fade-up.
 const listVariants: Variants = {
   hidden: {},
   visible: { transition: { staggerChildren: 0.08 } },
@@ -56,19 +53,55 @@ const itemVariants: Variants = {
   },
 };
 
+function ProjectTitle({ project }: { project: Project }) {
+  const heading = (
+    <h3 className="font-display text-2xl tracking-tight md:text-3xl">
+      {project.title}
+    </h3>
+  );
+  if (project.slug) {
+    return (
+      <Link
+        href={`/projects/${project.slug}`}
+        className="inline-block transition-colors hover:text-[var(--color-accent)]"
+      >
+        {heading}
+      </Link>
+    );
+  }
+  if (project.href) {
+    return (
+      <a
+        href={project.href}
+        target="_blank"
+        rel="noreferrer"
+        className="inline-block transition-colors hover:text-[var(--color-accent)]"
+      >
+        {heading}
+      </a>
+    );
+  }
+  return heading;
+}
+
 export function Work() {
   return (
     <section id="work" className="border-t border-[var(--color-border)] py-32">
       <div className="container-x">
-        <ScrollReveal className="mb-16 flex items-baseline justify-between">
-          <h2 className="font-display text-4xl md:text-6xl tracking-tight">
-            Selected Work
+        <ScrollReveal className="mb-12 flex items-center gap-4">
+          <span className="font-mono text-sm text-[var(--color-accent)]">02</span>
+          <span className="h-px flex-1 bg-[var(--color-border)]" />
+          <p className="caption text-[var(--color-fg-muted)]">Selected Work</p>
+        </ScrollReveal>
+
+        <ScrollReveal className="mb-12">
+          <h2 className="font-display text-4xl tracking-tight md:text-6xl">
+            O que tenho construído
           </h2>
-          <p className="caption text-[var(--color-fg-muted)]">2025—2026</p>
         </ScrollReveal>
 
         <motion.ul
-          className="divide-y divide-[var(--color-border)]"
+          className="divide-y divide-[var(--color-border)] border-t border-[var(--color-border)]"
           variants={listVariants}
           initial="hidden"
           whileInView="visible"
@@ -81,31 +114,24 @@ export function Work() {
               className="group grid grid-cols-12 gap-6 py-8 transition-colors hover:bg-[var(--color-bg-elevated)]/40"
             >
               <div className="col-span-12 md:col-span-7">
-                {p.slug ? (
-                  <Link
-                    href={`/projects/${p.slug}`}
-                    className="inline-block transition-colors hover:text-[var(--color-accent)]"
-                  >
-                    <h3 className="font-display text-2xl tracking-tight md:text-3xl">
-                      {p.title}
-                    </h3>
-                  </Link>
-                ) : (
-                  <h3 className="font-display text-2xl tracking-tight md:text-3xl">
-                    {p.title}
-                  </h3>
-                )}
+                <ProjectTitle project={p} />
                 <p className="mt-2 text-[var(--color-fg-muted)]">{p.blurb}</p>
+                <ul className="mt-4 flex flex-wrap gap-2">
+                  {p.tags.map((t) => (
+                    <li
+                      key={t}
+                      className="caption rounded-full border border-[var(--color-border-strong)] px-3 py-1 text-[var(--color-fg-muted)]"
+                    >
+                      {t}
+                    </li>
+                  ))}
+                </ul>
               </div>
-              <div className="col-span-6 md:col-span-3">
-                <p className="caption text-[var(--color-fg-muted)]">Role</p>
+              <div className="col-span-9 md:col-span-4">
+                <p className="caption text-[var(--color-fg-muted)]">Contexto</p>
                 <p className="mt-1 text-sm">{p.role}</p>
               </div>
-              <div className="col-span-6 md:col-span-1">
-                <p className="caption text-[var(--color-fg-muted)]">Year</p>
-                <p className="mt-1 text-sm">{p.year}</p>
-              </div>
-              <div className="col-span-12 md:col-span-1 md:text-right">
+              <div className="col-span-3 md:col-span-1 md:text-right">
                 {p.slug ? (
                   <Link
                     href={`/projects/${p.slug}`}
@@ -114,6 +140,16 @@ export function Work() {
                   >
                     →
                   </Link>
+                ) : p.href ? (
+                  <a
+                    href={p.href}
+                    target="_blank"
+                    rel="noreferrer"
+                    aria-label={`Abrir ${p.title}`}
+                    className="inline-block transition-transform group-hover:translate-x-1 group-hover:text-[var(--color-accent)]"
+                  >
+                    ↗
+                  </a>
                 ) : (
                   <span className="inline-block opacity-40">→</span>
                 )}

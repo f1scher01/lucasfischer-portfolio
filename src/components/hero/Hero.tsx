@@ -56,8 +56,8 @@ export function Hero() {
           className="flex items-end justify-between gap-6"
         >
           <p className="max-w-md text-[var(--color-fg-muted)]">
-            FSAE trainee at Maua Racing. Site builder. Multilingual. Available
-            for premium work.
+            Mechanical engineering student at IMT. Site builder. Multilingual.
+            Available for premium work.
           </p>
           <a
             href="#work"
