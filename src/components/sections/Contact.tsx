@@ -1,5 +1,5 @@
 import { ScrollReveal } from "@/components/common/ScrollReveal";
-import { MagneticButton } from "@/components/ui/MagneticButton";
+import { ContactForm } from "@/components/sections/ContactForm";
 
 export function Contact() {
   return (
@@ -11,34 +11,42 @@ export function Contact() {
 
         <ScrollReveal delay={0.1}>
           <h2 className="font-display text-5xl tracking-tight md:text-8xl">
-            Let's build
+            Let&apos;s build
             <br />
             <span className="text-[var(--color-accent)]">something solid.</span>
           </h2>
         </ScrollReveal>
 
-        <ScrollReveal delay={0.2} className="mt-12 max-w-xl">
-          <p className="text-lg text-[var(--color-fg-muted)]">
-            Disponível para parcerias em FSAE / automotive / hardware,
-            freelance premium de site e oportunidades acadêmicas.
-          </p>
-        </ScrollReveal>
+        <div className="mt-16 grid gap-16 md:grid-cols-12">
+          <ScrollReveal delay={0.2} className="md:col-span-5">
+            <p className="text-lg text-[var(--color-fg-muted)]">
+              Disponível para parcerias em FSAE / automotive / hardware,
+              freelance premium de site e oportunidades acadêmicas.
+            </p>
+            <p className="mt-8 text-sm text-[var(--color-fg-muted)]">
+              Prefere outro canal?{" "}
+              <a
+                href="https://linkedin.com/in/lucasfischerpaez"
+                target="_blank"
+                rel="noreferrer"
+                className="text-[var(--color-accent)] underline-offset-4 hover:underline"
+              >
+                LinkedIn ↗
+              </a>{" "}
+              ·{" "}
+              <a
+                href="mailto:lucasf22games@gmail.com"
+                className="text-[var(--color-accent)] underline-offset-4 hover:underline"
+              >
+                Email
+              </a>
+            </p>
+          </ScrollReveal>
 
-        <ScrollReveal delay={0.3} className="mt-12 flex flex-wrap gap-4">
-          <MagneticButton
-            as="a"
-            href="mailto:lucasf22games@gmail.com"
-            className="border-[var(--color-accent)] text-[var(--color-accent)]"
-          >
-            Send an email →
-          </MagneticButton>
-          <MagneticButton
-            as="a"
-            href="https://linkedin.com/in/lucasfischerpaez"
-          >
-            Connect on LinkedIn ↗
-          </MagneticButton>
-        </ScrollReveal>
+          <ScrollReveal delay={0.3} className="md:col-span-7">
+            <ContactForm />
+          </ScrollReveal>
+        </div>
       </div>
     </section>
   );
