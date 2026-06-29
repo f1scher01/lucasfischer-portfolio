@@ -1,0 +1,94 @@
+@import "tailwindcss";
+
+@theme {
+  /* Cores — modo dark default */
+  --color-bg: oklch(15% 0.01 240);
+  --color-bg-elevated: oklch(20% 0.015 240);
+  --color-fg: oklch(95% 0.005 240);
+  --color-fg-muted: oklch(70% 0.01 240);
+  --color-fg-dim: oklch(50% 0.01 240);
+
+  --color-accent: oklch(70% 0.18 60);
+  --color-accent-strong: oklch(80% 0.22 50);
+
+  --color-success: oklch(75% 0.15 145);
+  --color-warning: oklch(80% 0.16 80);
+  --color-danger: oklch(65% 0.22 25);
+
+  --color-border: oklch(25% 0.01 240);
+  --color-border-strong: oklch(40% 0.01 240);
+
+  /* Tipografia */
+  --font-sans: "Geist Sans", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "Geist Mono", ui-monospace, monospace;
+  --font-display: "Cal Sans", "Geist Sans", sans-serif;
+  --font-editorial: "Fraunces", "Times New Roman", serif;
+
+  /* Easing */
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-out-soft: cubic-bezier(0.65, 0, 0.35, 1);
+  --ease-in-out-quart: cubic-bezier(0.76, 0, 0.24, 1);
+
+  /* Container */
+  --container-7xl: 1280px;
+}
+
+@layer base {
+  *,
+  *::before,
+  *::after {
+    border-color: var(--color-border);
+  }
+
+  html {
+    scroll-behavior: smooth;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  body {
+    background: var(--color-bg);
+    color: var(--color-fg);
+    font-family: var(--font-sans);
+    overflow-x: hidden;
+  }
+
+  ::selection {
+    background: var(--color-accent);
+    color: var(--color-bg);
+  }
+
+  /* Foco visível custom */
+  :focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 4px;
+    border-radius: 4px;
+  }
+
+  /* Reduced motion */
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+}
+
+@layer components {
+  .container-x {
+    @apply mx-auto w-full px-6 md:px-12;
+    max-width: var(--container-7xl);
+  }
+
+  .caption {
+    font-size: 0.75rem;
+    line-height: 1.4;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--color-fg-muted);
+  }
+}
