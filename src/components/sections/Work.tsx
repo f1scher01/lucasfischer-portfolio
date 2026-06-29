@@ -1,11 +1,22 @@
 "use client";
 
+import Link from "next/link";
 import { motion, type Variants } from "motion/react";
 import { ScrollReveal } from "@/components/common/ScrollReveal";
 
-const PROJECTS = [
+interface Project {
+  title: string;
+  slug?: string; // só projetos com página /projects/[slug]
+  role: string;
+  year: string;
+  blurb: string;
+  tags: string[];
+}
+
+const PROJECTS: Project[] = [
   {
     title: "Maua Racing — Vehicle Dynamics",
+    slug: "maua-racing",
     role: "Trainee · FSAE",
     year: "2026",
     blurb:
@@ -70,9 +81,20 @@ export function Work() {
               className="group grid grid-cols-12 gap-6 py-8 transition-colors hover:bg-[var(--color-bg-elevated)]/40"
             >
               <div className="col-span-12 md:col-span-7">
-                <h3 className="font-display text-2xl tracking-tight md:text-3xl">
-                  {p.title}
-                </h3>
+                {p.slug ? (
+                  <Link
+                    href={`/projects/${p.slug}`}
+                    className="inline-block transition-colors hover:text-[var(--color-accent)]"
+                  >
+                    <h3 className="font-display text-2xl tracking-tight md:text-3xl">
+                      {p.title}
+                    </h3>
+                  </Link>
+                ) : (
+                  <h3 className="font-display text-2xl tracking-tight md:text-3xl">
+                    {p.title}
+                  </h3>
+                )}
                 <p className="mt-2 text-[var(--color-fg-muted)]">{p.blurb}</p>
               </div>
               <div className="col-span-6 md:col-span-3">
@@ -84,9 +106,17 @@ export function Work() {
                 <p className="mt-1 text-sm">{p.year}</p>
               </div>
               <div className="col-span-12 md:col-span-1 md:text-right">
-                <span className="inline-block transition-transform group-hover:translate-x-1 group-hover:text-[var(--color-accent)]">
-                  →
-                </span>
+                {p.slug ? (
+                  <Link
+                    href={`/projects/${p.slug}`}
+                    aria-label={`Ver ${p.title}`}
+                    className="inline-block transition-transform group-hover:translate-x-1 group-hover:text-[var(--color-accent)]"
+                  >
+                    →
+                  </Link>
+                ) : (
+                  <span className="inline-block opacity-40">→</span>
+                )}
               </div>
             </motion.li>
           ))}
