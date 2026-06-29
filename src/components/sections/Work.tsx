@@ -1,3 +1,6 @@
+"use client";
+
+import { motion, type Variants } from "motion/react";
 import { ScrollReveal } from "@/components/common/ScrollReveal";
 
 const PROJECTS = [
@@ -27,6 +30,21 @@ const PROJECTS = [
   },
 ];
 
+// Container orquestra o stagger; cada item entra com fade-up.
+const listVariants: Variants = {
+  hidden: {},
+  visible: { transition: { staggerChildren: 0.08 } },
+};
+
+const itemVariants: Variants = {
+  hidden: { opacity: 0, y: 30 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.6, ease: [0.16, 1, 0.3, 1] },
+  },
+};
+
 export function Work() {
   return (
     <section id="work" className="border-t border-[var(--color-border)] py-32">
@@ -38,33 +56,41 @@ export function Work() {
           <p className="caption text-[var(--color-fg-muted)]">2025—2026</p>
         </ScrollReveal>
 
-        <ul className="divide-y divide-[var(--color-border)]">
-          {PROJECTS.map((p, i) => (
-            <ScrollReveal key={p.title} delay={i * 0.05}>
-              <li className="group grid grid-cols-12 gap-6 py-8 transition-colors hover:bg-[var(--color-bg-elevated)]/40">
-                <div className="col-span-12 md:col-span-7">
-                  <h3 className="font-display text-2xl tracking-tight md:text-3xl">
-                    {p.title}
-                  </h3>
-                  <p className="mt-2 text-[var(--color-fg-muted)]">{p.blurb}</p>
-                </div>
-                <div className="col-span-6 md:col-span-3">
-                  <p className="caption text-[var(--color-fg-muted)]">Role</p>
-                  <p className="mt-1 text-sm">{p.role}</p>
-                </div>
-                <div className="col-span-6 md:col-span-1">
-                  <p className="caption text-[var(--color-fg-muted)]">Year</p>
-                  <p className="mt-1 text-sm">{p.year}</p>
-                </div>
-                <div className="col-span-12 md:col-span-1 md:text-right">
-                  <span className="inline-block transition-transform group-hover:translate-x-1 group-hover:text-[var(--color-accent)]">
-                    →
-                  </span>
-                </div>
-              </li>
-            </ScrollReveal>
+        <motion.ul
+          className="divide-y divide-[var(--color-border)]"
+          variants={listVariants}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: "-15% 0px" }}
+        >
+          {PROJECTS.map((p) => (
+            <motion.li
+              key={p.title}
+              variants={itemVariants}
+              className="group grid grid-cols-12 gap-6 py-8 transition-colors hover:bg-[var(--color-bg-elevated)]/40"
+            >
+              <div className="col-span-12 md:col-span-7">
+                <h3 className="font-display text-2xl tracking-tight md:text-3xl">
+                  {p.title}
+                </h3>
+                <p className="mt-2 text-[var(--color-fg-muted)]">{p.blurb}</p>
+              </div>
+              <div className="col-span-6 md:col-span-3">
+                <p className="caption text-[var(--color-fg-muted)]">Role</p>
+                <p className="mt-1 text-sm">{p.role}</p>
+              </div>
+              <div className="col-span-6 md:col-span-1">
+                <p className="caption text-[var(--color-fg-muted)]">Year</p>
+                <p className="mt-1 text-sm">{p.year}</p>
+              </div>
+              <div className="col-span-12 md:col-span-1 md:text-right">
+                <span className="inline-block transition-transform group-hover:translate-x-1 group-hover:text-[var(--color-accent)]">
+                  →
+                </span>
+              </div>
+            </motion.li>
           ))}
-        </ul>
+        </motion.ul>
       </div>
     </section>
   );
