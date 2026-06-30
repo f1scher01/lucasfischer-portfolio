@@ -5,7 +5,7 @@ export function Contact() {
   return (
     <section
       id="contact"
-      className="relative overflow-hidden border-t border-[var(--color-border)] py-32"
+      className="relative overflow-hidden border-t border-[var(--color-border)] bg-[var(--color-bg)] py-32"
     >
       {/* glow accent — calor no fim da página */}
       <div
@@ -15,7 +15,7 @@ export function Contact() {
 
       <div className="container-x">
         <ScrollReveal className="mb-12 flex items-center gap-4">
-          <span className="font-mono text-sm text-[var(--color-accent)]">05</span>
+          <span className="font-mono text-sm text-[var(--color-accent)]">06</span>
           <span className="h-px flex-1 bg-[var(--color-border)]" />
           <p className="caption text-[var(--color-fg-muted)]">Contact</p>
         </ScrollReveal>

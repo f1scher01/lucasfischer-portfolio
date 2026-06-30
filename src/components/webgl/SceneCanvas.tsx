@@ -91,17 +91,16 @@ export default function SceneCanvas() {
       <PerspectiveCamera makeDefault position={[0, 0.14, 1.5]} fov={42} />
       <CameraRig animate={!reduced} />
 
-      <ambientLight intensity={0.35} />
+      <ambientLight intensity={0.6} />
       <directionalLight
         position={[2, 3, 2]}
-        intensity={1.1}
+        intensity={1.0}
         castShadow
         shadow-mapSize={[2048, 2048]}
         shadow-bias={-0.0002}
         shadow-normalBias={0.02}
       />
-      <directionalLight position={[-3, 1, -1]} intensity={0.35} color="#88aaff" />
-      <pointLight position={[0, 0.4, 0.6]} intensity={6} color="#f5993a" distance={3} />
+      <directionalLight position={[-3, 1, -1]} intensity={0.3} color="#aab4c8" />
 
       <Suspense fallback={null}>
         <Environment preset="city" />

@@ -27,7 +27,7 @@ export function Toolkit() {
     >
       <div className="container-x">
         <ScrollReveal className="mb-12 flex items-center gap-4">
-          <span className="font-mono text-sm text-[var(--color-accent)]">03</span>
+          <span className="font-mono text-sm text-[var(--color-accent)]">04</span>
           <span className="h-px flex-1 bg-[var(--color-border)]" />
           <p className="caption text-[var(--color-fg-muted)]">Toolkit</p>
         </ScrollReveal>
