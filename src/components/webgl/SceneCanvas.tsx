@@ -9,16 +9,31 @@ import { Effects } from "./Effects";
 import { sceneState } from "./sceneStore";
 import { prefersReducedMotion, isCoarsePointer } from "@/lib/motion";
 
-type Mode = "scroll" | "auto" | "static";
+type Interaction = "cursor" | "auto";
 
-/** Dirige sceneState.targetLoad conforme o modo (dentro do loop R3F). */
-function LoadDriver({ mode }: { mode: Mode }) {
+/**
+ * Resolve sceneState.targetLoad por frame:
+ *  - cursor (desktop): carga segue o Y do cursor + respiração idle (interação
+ *    sempre viva; idle some em reduced-motion, mas o cursor continua valendo).
+ *  - auto (touch): oscila em senoide.
+ */
+function LoadDriver({
+  interaction,
+  reduced,
+}: {
+  interaction: Interaction;
+  reduced: boolean;
+}) {
   useFrame((state) => {
-    if (mode === "static") {
-      sceneState.targetLoad = 0.45;
-    } else if (mode === "auto") {
-      const t = state.clock.elapsedTime;
+    const t = state.clock.elapsedTime;
+    if (interaction === "auto") {
       sceneState.targetLoad = (1 - Math.cos((2 * Math.PI * t) / 5)) / 2;
+    } else {
+      const idle = reduced ? 0 : 0.06 + Math.sin(t * 0.8) * 0.05;
+      sceneState.targetLoad = Math.min(
+        1,
+        Math.max(sceneState.cursorLoad, idle),
+      );
     }
   });
   return null;
@@ -41,29 +56,31 @@ function CameraRig({ animate }: { animate: boolean }) {
 }
 
 export default function SceneCanvas() {
-  const [mode, setMode] = useState<Mode>("static");
-  const [isCoarse, setIsCoarse] = useState(false);
+  const [interaction, setInteraction] = useState<Interaction>("cursor");
+  const [reduced, setReduced] = useState(false);
 
   useEffect(() => {
-    const reduce = prefersReducedMotion();
+    const r = prefersReducedMotion();
     const coarse = isCoarsePointer();
-    sceneState.reducedMotion = reduce;
-    setIsCoarse(coarse);
-    setMode(reduce ? "static" : coarse ? "auto" : "scroll");
+    sceneState.reducedMotion = r;
+    setReduced(r);
+    setInteraction(coarse ? "auto" : "cursor");
   }, []);
 
-  // ponteiro → parallax de câmera (sempre) + modulação de carga (só desktop/scroll)
+  // cursor → carga (Y) + parallax de câmera (X/Y). Sempre ativo no desktop.
   useEffect(() => {
+    if (interaction !== "cursor") return;
     const onMove = (e: PointerEvent) => {
-      const nx = e.clientX / window.innerWidth - 0.5;
-      const ny = e.clientY / window.innerHeight - 0.5;
-      sceneState.px = nx;
-      sceneState.py = ny;
-      if (mode === "scroll") sceneState.pointerNudge = nx * 0.12;
+      sceneState.px = e.clientX / window.innerWidth - 0.5;
+      sceneState.py = e.clientY / window.innerHeight - 0.5;
+      sceneState.cursorLoad = Math.min(
+        Math.max(e.clientY / window.innerHeight, 0),
+        1,
+      );
     };
     window.addEventListener("pointermove", onMove, { passive: true });
     return () => window.removeEventListener("pointermove", onMove);
-  }, [mode]);
+  }, [interaction]);
 
   return (
     <Canvas
@@ -72,7 +89,7 @@ export default function SceneCanvas() {
       gl={{ antialias: true, alpha: true, toneMapping: THREE.ACESFilmicToneMapping }}
     >
       <PerspectiveCamera makeDefault position={[0, 0.14, 1.5]} fov={42} />
-      <CameraRig animate={mode !== "static"} />
+      <CameraRig animate={!reduced} />
 
       <ambientLight intensity={0.35} />
       <directionalLight
@@ -91,9 +108,9 @@ export default function SceneCanvas() {
       </Suspense>
 
       <Beam />
-      <LoadDriver mode={mode} />
+      <LoadDriver interaction={interaction} reduced={reduced} />
 
-      {!sceneState.reducedMotion && !isCoarse ? <Effects /> : null}
+      {interaction === "cursor" ? <Effects /> : null}
       <AdaptiveDpr pixelated={false} />
     </Canvas>
   );

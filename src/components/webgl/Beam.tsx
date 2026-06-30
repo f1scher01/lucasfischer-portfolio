@@ -97,12 +97,8 @@ export function Beam() {
     if (!meshRef.current) return;
     const d = Math.min(delta, 0.05);
 
-    // suaviza a carga rumo ao alvo (scroll) + leve modulação do cursor
-    const target = THREE.MathUtils.clamp(
-      sceneState.targetLoad + sceneState.pointerNudge,
-      0,
-      1,
-    );
+    // suaviza a carga rumo ao alvo (resolvido pelo LoadDriver: cursor/idle/auto)
+    const target = THREE.MathUtils.clamp(sceneState.targetLoad, 0, 1);
     sceneState.load += (target - sceneState.load) * Math.min(1, d * 4);
     const load = sceneState.load;
     const F = load * F_max;

@@ -1,12 +1,7 @@
 "use client";
 
-import { useEffect, useRef } from "react";
 import { motion, type Variants } from "motion/react";
-import { gsap } from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { BeamHUD } from "@/components/hud/BeamHUD";
-import { sceneState } from "@/components/webgl/sceneStore";
-import { prefersReducedMotion, isCoarsePointer } from "@/lib/motion";
 
 const lineContainer: Variants = {
   hidden: {},
@@ -31,38 +26,8 @@ function Line({ children }: { children: React.ReactNode }) {
 }
 
 export function Hero() {
-  const sectionRef = useRef<HTMLElement>(null);
-
-  useEffect(() => {
-    if (prefersReducedMotion() || isCoarsePointer()) return; // SceneCanvas dirige a carga
-
-    const el = sectionRef.current;
-    if (!el) return;
-
-    gsap.registerPlugin(ScrollTrigger); // idempotente — garante registro antes do uso
-
-    // SEM pin (pin reparenta DOM → conflito removeChild com React no route change).
-    // Dirige a carga pelo progresso de scroll ao longo da Hero.
-    const ctx = gsap.context(() => {
-      ScrollTrigger.create({
-        trigger: el,
-        start: "top top",
-        end: "bottom top",
-        scrub: 1,
-        onUpdate: (self) => {
-          sceneState.targetLoad = self.progress;
-        },
-      });
-    }, el);
-
-    return () => ctx.revert();
-  }, []);
-
   return (
-    <section
-      ref={sectionRef}
-      className="relative min-h-screen overflow-hidden"
-    >
+    <section className="relative min-h-screen overflow-hidden">
       {/* HUD — telemetria ao vivo da viga (que vive no Canvas global atrás) */}
       <div className="absolute right-6 top-24 z-10 md:right-12">
         <BeamHUD />
@@ -111,7 +76,7 @@ export function Hero() {
             data-cursor="link"
             className="caption group inline-flex items-center gap-2 text-[var(--color-fg)] transition-colors hover:text-[var(--color-accent)]"
           >
-            Scroll to load
+            Mova o cursor · a viga responde
             <span className="inline-block transition-transform group-hover:translate-y-1">
               ↓
             </span>
