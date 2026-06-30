@@ -8,18 +8,18 @@ const REDLINE = 6900;
 
 interface Engine {
   ctx: AudioContext;
-  osc1: OscillatorNode;
-  osc2: OscillatorNode;
-  sub: OscillatorNode;
+  src: AudioBufferSourceNode | null;
   filter: BiquadFilterNode;
   gain: GainNode;
+  ready: boolean;
+  loading: boolean;
 }
 
 /**
  * Bancada interativa: segure o acelerador → o RPM sobe com inércia, a roda
- * gira e (se o som estiver ligado) ouve-se o ronco do motor — síntese WebAudio
- * (sawtooth detunados + sub + lowpass), criada só após gesto do usuário.
- * Sem auto-animação: só reage à interação (amigável a prefers-reduced-motion).
+ * gira e (se o som estiver ligado) ouve-se o motor — SAMPLE REAL (loop de motor
+ * CC0/domínio público) com pitch (playbackRate) + filtro + volume dirigidos
+ * pelo RPM via WebAudio. Carregado só após gesto do usuário. Sem auto-animação.
  */
 export function Dyno() {
   const wheelRef = useRef<SVGGElement>(null);
@@ -73,14 +73,13 @@ export function Dyno() {
       }
 
       const e = engineRef.current;
-      if (e) {
+      if (e && e.ready && e.src) {
         const now = e.ctx.currentTime;
-        const f = 32 + rpm * 150;
-        e.osc1.frequency.setTargetAtTime(f, now, 0.04);
-        e.osc2.frequency.setTargetAtTime(f * 1.006, now, 0.04);
-        e.sub.frequency.setTargetAtTime(f * 0.5, now, 0.04);
-        e.filter.frequency.setTargetAtTime(320 + rpm * 2700, now, 0.05);
-        const g = soundOnRef.current ? 0.014 + rpm * 0.07 : 0;
+        // pitch real do motor: idle ~0.55x → redline ~2.6x
+        e.src.playbackRate.setTargetAtTime(0.55 + rpm * 2.05, now, 0.06);
+        // escape "abre" com o giro
+        e.filter.frequency.setTargetAtTime(700 + rpm * 7200, now, 0.06);
+        const g = soundOnRef.current ? Math.min(0.06 + rpm * 0.5, 0.62) : 0;
         e.gain.gain.setTargetAtTime(g, now, 0.05);
       }
       raf = requestAnimationFrame(loop);
@@ -92,9 +91,7 @@ export function Dyno() {
       const e = engineRef.current;
       if (e) {
         try {
-          e.osc1.stop();
-          e.osc2.stop();
-          e.sub.stop();
+          e.src?.stop();
           void e.ctx.close();
         } catch {
           /* noop */
@@ -112,27 +109,42 @@ export function Dyno() {
         (window as unknown as { webkitAudioContext: typeof AudioContext })
           .webkitAudioContext;
       const ctx = new Ctx();
-      const osc1 = ctx.createOscillator();
-      const osc2 = ctx.createOscillator();
-      const sub = ctx.createOscillator();
-      osc1.type = "sawtooth";
-      osc2.type = "sawtooth";
-      sub.type = "square";
       const filter = ctx.createBiquadFilter();
       filter.type = "lowpass";
-      filter.frequency.value = 400;
-      filter.Q.value = 6;
+      filter.frequency.value = 1200;
+      filter.Q.value = 1;
       const gain = ctx.createGain();
       gain.gain.value = 0;
-      osc1.connect(filter);
-      osc2.connect(filter);
-      sub.connect(filter);
       filter.connect(gain);
       gain.connect(ctx.destination);
-      osc1.start();
-      osc2.start();
-      sub.start();
-      engineRef.current = { ctx, osc1, osc2, sub, filter, gain };
+
+      const engine: Engine = {
+        ctx,
+        src: null,
+        filter,
+        gain,
+        ready: false,
+        loading: true,
+      };
+      engineRef.current = engine;
+
+      // carrega o sample real (CC0) e cria a fonte em loop
+      fetch("/sounds/engine.wav")
+        .then((r) => r.arrayBuffer())
+        .then((b) => ctx.decodeAudioData(b))
+        .then((buffer) => {
+          const src = ctx.createBufferSource();
+          src.buffer = buffer;
+          src.loop = true;
+          src.connect(filter);
+          src.start();
+          engine.src = src;
+          engine.ready = true;
+          engine.loading = false;
+        })
+        .catch(() => {
+          engine.loading = false;
+        });
     } catch {
       /* WebAudio indisponível — segue só no visual */
     }
@@ -183,8 +195,8 @@ export function Dyno() {
             </h2>
             <p className="mt-5 max-w-md text-[var(--color-fg-muted)]">
               Uma bancada de dinamômetro em miniatura — inércia de rotação, linha
-              vermelha e som de motor sintetizado em tempo real (WebAudio).
-              Engenharia que se ouve.
+              vermelha e som de motor real (sample de domínio público) com pitch
+              dirigido pelo RPM. Engenharia que se ouve.
             </p>
           </ScrollReveal>
 
