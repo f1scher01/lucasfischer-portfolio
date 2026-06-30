@@ -3,8 +3,9 @@ import { GeistSans } from "geist/font/sans";
 import { GeistMono } from "geist/font/mono";
 import { SmoothScroll } from "@/components/common/SmoothScroll";
 import { Nav } from "@/components/nav/Nav";
-import { AxeReporter } from "@/components/common/AxeReporter";
 import { Grain } from "@/components/common/Grain";
+import { SceneLayer } from "@/components/webgl/SceneLayer";
+import { Cursor } from "@/components/ui/Cursor";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -35,12 +36,15 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         >
           Pular para o conteúdo
         </a>
+        <SceneLayer />
         <SmoothScroll>
           <Nav />
-          <main id="main">{children}</main>
+          <main id="main" className="relative z-10">
+            {children}
+          </main>
         </SmoothScroll>
         <Grain />
-        <AxeReporter />
+        <Cursor />
       </body>
     </html>
   );

@@ -41,13 +41,13 @@
   }
 
   html {
-    scroll-behavior: smooth;
+    /* bg base no html — o Canvas 3D fica fixo acima dele, atrás do conteúdo */
+    background: var(--color-bg);
     text-rendering: optimizeLegibility;
     -webkit-font-smoothing: antialiased;
   }
 
   body {
-    background: var(--color-bg);
     color: var(--color-fg);
     font-family: var(--font-sans);
     overflow-x: hidden;
@@ -91,4 +91,79 @@
     text-transform: uppercase;
     color: var(--color-fg-muted);
   }
+}
+
+/* ===== Cursor custom (desktop, sem reduced-motion) ===== */
+html.has-custom-cursor,
+html.has-custom-cursor * {
+  cursor: none !important;
+}
+
+.cursor-dot,
+.cursor-ring {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 90;
+  pointer-events: none;
+  will-change: transform;
+  mix-blend-mode: difference;
+}
+
+.cursor-dot {
+  width: 7px;
+  height: 7px;
+  margin: -3.5px 0 0 -3.5px;
+  border-radius: 9999px;
+  background: #fff;
+}
+
+.cursor-ring {
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  margin: -20px 0 0 -20px;
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  border-radius: 9999px;
+  transition:
+    width 0.25s var(--ease-out-expo),
+    height 0.25s var(--ease-out-expo),
+    background-color 0.25s var(--ease-out-expo),
+    border-color 0.25s var(--ease-out-expo);
+}
+
+.cursor-label {
+  font-family: var(--font-mono);
+  font-size: 0.6rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #000;
+  opacity: 0;
+  transform: scale(0.6);
+  transition:
+    opacity 0.2s var(--ease-out-expo),
+    transform 0.2s var(--ease-out-expo);
+}
+
+/* estado "view" — sobre cards/projetos */
+.cursor-ring[data-state="view"] {
+  width: 76px;
+  height: 76px;
+  margin: -38px 0 0 -38px;
+  background: var(--color-accent);
+  border-color: var(--color-accent);
+  mix-blend-mode: normal;
+}
+.cursor-ring[data-state="view"] .cursor-label {
+  opacity: 1;
+  transform: scale(1);
+}
+
+/* estado "link" — links de texto/CTAs */
+.cursor-ring[data-state="link"] {
+  width: 56px;
+  height: 56px;
+  margin: -28px 0 0 -28px;
+  background: rgba(255, 255, 255, 0.12);
 }

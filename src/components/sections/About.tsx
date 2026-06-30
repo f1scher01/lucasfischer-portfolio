@@ -11,7 +11,7 @@ export function About() {
   return (
     <section
       id="about"
-      className="relative border-t border-[var(--color-border)] py-32"
+      className="relative border-t border-[var(--color-border)] bg-[var(--color-bg)] py-32"
     >
       {/* glow accent sutil — quebra a sobriedade */}
       <div

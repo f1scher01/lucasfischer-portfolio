@@ -31,7 +31,7 @@ export function Credentials() {
   return (
     <section
       id="credentials"
-      className="border-t border-[var(--color-border)] py-32"
+      className="relative border-t border-[var(--color-border)] bg-[var(--color-bg)] py-32"
     >
       <div className="container-x">
         <ScrollReveal className="mb-12 flex items-center gap-4">

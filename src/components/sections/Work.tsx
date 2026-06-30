@@ -86,7 +86,10 @@ function ProjectTitle({ project }: { project: Project }) {
 
 export function Work() {
   return (
-    <section id="work" className="border-t border-[var(--color-border)] py-32">
+    <section
+      id="work"
+      className="relative border-t border-[var(--color-border)] bg-[var(--color-bg)] py-32"
+    >
       <div className="container-x">
         <ScrollReveal className="mb-12 flex items-center gap-4">
           <span className="font-mono text-sm text-[var(--color-accent)]">02</span>
@@ -111,6 +114,7 @@ export function Work() {
             <motion.li
               key={p.title}
               variants={itemVariants}
+              data-cursor="view"
               className="group grid grid-cols-12 gap-6 py-8 transition-colors hover:bg-[var(--color-bg-elevated)]/40"
             >
               <div className="col-span-12 md:col-span-7">

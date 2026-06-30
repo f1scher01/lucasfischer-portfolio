@@ -19,7 +19,8 @@ const withMDX = createMDX({
 });
 
 const nextConfig: NextConfig = {
-  experimental: { reactCompiler: true },
+  // React Compiler (experimental) desligado: miscompila chamadas imperativas
+  // do GSAP (gsap.context / ScrollTrigger) e causava crash client-side.
   images: { formats: ["image/avif", "image/webp"] },
   transpilePackages: ["three"],
   // permite .md/.mdx como páginas/módulos

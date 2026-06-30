@@ -21,7 +21,10 @@ const GROUPS = [
 
 export function Toolkit() {
   return (
-    <section id="toolkit" className="border-t border-[var(--color-border)] py-32">
+    <section
+      id="toolkit"
+      className="relative border-t border-[var(--color-border)] bg-[var(--color-bg)] py-32"
+    >
       <div className="container-x">
         <ScrollReveal className="mb-12 flex items-center gap-4">
           <span className="font-mono text-sm text-[var(--color-accent)]">03</span>

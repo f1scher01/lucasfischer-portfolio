@@ -1,6 +1,6 @@
 export function Footer() {
   return (
-    <footer className="border-t border-[var(--color-border)] py-12">
+    <footer className="relative border-t border-[var(--color-border)] bg-[var(--color-bg)] py-12">
       <div className="container-x flex flex-col items-start justify-between gap-6 md:flex-row md:items-center">
         <p className="caption text-[var(--color-fg-muted)]">
           © {new Date().getFullYear()} Lucas Fischer Paez · São Paulo, BR
