@@ -6,6 +6,7 @@ import { Nav } from "@/components/nav/Nav";
 import { Grain } from "@/components/common/Grain";
 import { SceneLayer } from "@/components/webgl/SceneLayer";
 import { Cursor } from "@/components/ui/Cursor";
+import { Preloader } from "@/components/preloader/Preloader";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -45,6 +46,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         </SmoothScroll>
         <Grain />
         <Cursor />
+        <Preloader />
       </body>
     </html>
   );

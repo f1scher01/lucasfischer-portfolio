@@ -167,3 +167,48 @@ html.has-custom-cursor * {
   margin: -28px 0 0 -28px;
   background: rgba(255, 255, 255, 0.12);
 }
+
+/* ===== Preloader (1º load) ===== */
+.preloader {
+  position: fixed;
+  inset: 0;
+  z-index: 80;
+  display: grid;
+  place-items: center;
+  background: var(--color-bg);
+  will-change: transform;
+}
+.preloader-inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  padding: 0 1.5rem;
+  text-align: center;
+}
+.preloader-count {
+  font-family: var(--font-mono);
+  font-size: clamp(4rem, 16vw, 11rem);
+  line-height: 1;
+  letter-spacing: -0.04em;
+  color: var(--color-fg);
+}
+.preloader-bar {
+  display: block;
+  height: 2px;
+  width: 120px;
+  background: linear-gradient(
+    90deg,
+    var(--color-accent),
+    var(--color-accent-strong)
+  );
+}
+
+/* ===== Cortina de transição de rota ===== */
+.route-curtain {
+  position: fixed;
+  inset: 0;
+  z-index: 70;
+  background: var(--color-accent);
+  pointer-events: none;
+}

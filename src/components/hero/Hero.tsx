@@ -41,14 +41,14 @@ export function Hero() {
 
     gsap.registerPlugin(ScrollTrigger); // idempotente — garante registro antes do uso
 
+    // SEM pin (pin reparenta DOM → conflito removeChild com React no route change).
+    // Dirige a carga pelo progresso de scroll ao longo da Hero.
     const ctx = gsap.context(() => {
       ScrollTrigger.create({
         trigger: el,
         start: "top top",
-        end: "+=120%",
-        pin: true,
+        end: "bottom top",
         scrub: 1,
-        anticipatePin: 1,
         onUpdate: (self) => {
           sceneState.targetLoad = self.progress;
         },
