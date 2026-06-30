@@ -135,8 +135,9 @@ export function Beam() {
     }
   });
 
+  // Grupo angulado em ¾ — dá profundidade 3D e protagonismo à viga.
   return (
-    <>
+    <group rotation={[-0.16, -0.42, 0.04]} scale={1.32}>
       <mesh
         ref={meshRef}
         geometry={geometry}
@@ -146,7 +147,7 @@ export function Beam() {
       />
       <Support position={[-params.L / 2, -params.h / 2 - 0.02, 0]} />
       <Support position={[params.L / 2, -params.h / 2 - 0.02, 0]} />
-    </>
+    </group>
   );
 }
 
