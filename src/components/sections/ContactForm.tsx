@@ -1,8 +1,11 @@
 "use client";
 
-import { useActionState } from "react";
+import { useActionState, useEffect, useState } from "react";
 import { motion } from "motion/react";
+import { Turnstile } from "@marsidev/react-turnstile";
 import { sendContact, type ContactState } from "@/app/actions/contact";
+
+const TURNSTILE_SITE_KEY = process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY;
 
 const initialState: ContactState = { status: "idle" };
 
@@ -60,6 +63,9 @@ function Field({
 
 export function ContactForm() {
   const [state, formAction, pending] = useActionState(sendContact, initialState);
+  // timestamp de render (anti-bot): setado no client pós-mount
+  const [ts, setTs] = useState(0);
+  useEffect(() => setTs(Date.now()), []);
 
   if (state.status === "success") {
     return (
@@ -77,6 +83,19 @@ export function ContactForm() {
 
   return (
     <form action={formAction} className="space-y-8" noValidate>
+      {/* honeypot — invisível para humanos, irresistível para bots */}
+      <div aria-hidden className="absolute -left-[9999px] h-0 w-0 overflow-hidden">
+        <label htmlFor="company">Empresa</label>
+        <input
+          id="company"
+          name="company"
+          type="text"
+          tabIndex={-1}
+          autoComplete="off"
+        />
+      </div>
+      <input type="hidden" name="_ts" value={ts} />
+
       <Field label="Nome" name="name" error={state.errors?.name} />
       <Field label="Email" name="email" type="email" error={state.errors?.email} />
       <Field label="Mensagem" name="message" multiline error={state.errors?.message} />
@@ -85,6 +104,13 @@ export function ContactForm() {
         <p className="text-sm text-[var(--color-danger)]" role="alert">
           {state.message}
         </p>
+      ) : null}
+
+      {TURNSTILE_SITE_KEY ? (
+        <Turnstile
+          siteKey={TURNSTILE_SITE_KEY}
+          options={{ size: "invisible" }}
+        />
       ) : null}
 
       <button
