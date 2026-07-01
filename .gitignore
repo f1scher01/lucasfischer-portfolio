@@ -1,11 +1,12 @@
 node_modules/
 .next/
 out/
-.env*.local
+
+# env — NUNCA commitar segredos (exceção: exemplo sem valores)
+.env*
+!.env.example
+
 .vercel
 *.tsbuildinfo
 next-env.d.ts
 .DS_Store
-
-.vercel
-.env*
