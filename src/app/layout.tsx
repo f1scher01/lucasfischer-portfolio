@@ -18,8 +18,23 @@ import { Cursor } from "@/components/ui/Cursor";
 import { Preloader } from "@/components/preloader/Preloader";
 import "./globals.css";
 
+// JSON-LD Person — dados estruturados p/ Google (schema.org)
+const personJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "Person",
+  name: "Lucas Fischer Paez",
+  jobTitle: "Mechanical Engineer & Design Engineer",
+  alumniOf: "Instituto Mauá de Tecnologia",
+  url: "https://lucasfischer-portfolio.vercel.app",
+  sameAs: [
+    "https://github.com/lucasf22games-png",
+    "https://linkedin.com/in/lucasfischerpaez",
+  ],
+  knowsLanguage: ["pt-BR", "es", "en", "fr"],
+};
+
 export const metadata: Metadata = {
-  metadataBase: new URL("https://fischer.engineer"),
+  metadataBase: new URL("https://lucasfischer-portfolio.vercel.app"),
   title: {
     default: "Lucas Fischer — Mechanical Engineer & Design Engineer",
     template: "%s · Lucas Fischer",
@@ -42,6 +57,11 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       className={`${GeistSans.variable} ${GeistMono.variable} ${fraunces.variable}`}
     >
       <body>
+        <script
+          type="application/ld+json"
+          // conteúdo 100% estático controlado por nós (sem input de usuário)
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(personJsonLd) }}
+        />
         {/* Skip-link — WCAG 2.4.1: pula a nav, visível só no foco */}
         <a
           href="#main"

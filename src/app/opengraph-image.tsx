@@ -1,18 +1,14 @@
 import { ImageResponse } from "@vercel/og";
 
-// OG image dinâmica — renderizada no edge.
 export const runtime = "edge";
 export const alt = "Lucas Fischer — Mechanical Engineer & Design Engineer";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
 /**
- * Cores: o Satori (engine do @vercel/og) não interpreta oklch(), então
- * usamos os equivalentes em hex dos tokens do design system:
- *   --bg        oklch(15% 0.01 240)  → #0d0f14
- *   --fg        oklch(95% 0.005 240) → #f2f3f5
- *   --fg-muted  oklch(70% 0.01 240)  → #a0a6ad
- *   --accent    oklch(70% 0.18 60)   → #f29d3d
+ * OG rica: fundo dark, grid técnico sutil, nome grande, silhueta da viga
+ * bi-apoiada defletida (assinatura do site) e linha accent.
+ * Cores = tokens do design system convertidos p/ hex (Satori não lê oklch).
  */
 export default function OpengraphImage() {
   return new ImageResponse(
@@ -27,41 +23,77 @@ export default function OpengraphImage() {
           padding: "80px",
           background: "#0d0f14",
           fontFamily: "sans-serif",
+          position: "relative",
+          // grid técnico 40px
+          backgroundImage:
+            "linear-gradient(#1a1d24 1px, transparent 1px), linear-gradient(90deg, #1a1d24 1px, transparent 1px)",
+          backgroundSize: "40px 40px",
         }}
       >
+        {/* silhueta: viga bi-apoiada defletida + apoios */}
+        <svg
+          width="380"
+          height="120"
+          viewBox="0 0 380 120"
+          style={{ position: "absolute", top: 56, right: 64 }}
+        >
+          <path
+            d="M10 30 Q 190 95 370 30"
+            stroke="#f29d3d"
+            strokeWidth="7"
+            fill="none"
+            strokeLinecap="round"
+          />
+          <path d="M2 52 L18 52 L10 36 Z" fill="#5a6170" />
+          <path d="M362 52 L378 52 L370 36 Z" fill="#5a6170" />
+          <text x="150" y="118" fill="#5a6170" fontSize="16" fontFamily="monospace">
+            σ = M·c / I
+          </text>
+        </svg>
+
         <div style={{ display: "flex", flexDirection: "column" }}>
           <div
             style={{
-              fontSize: 96,
-              fontWeight: 600,
+              fontSize: 110,
+              fontWeight: 700,
               color: "#f2f3f5",
               lineHeight: 1,
               letterSpacing: "-0.03em",
             }}
           >
-            Lucas Fischer
+            LUCAS FISCHER
           </div>
 
-          {/* Linha accent — referência à tensão de viga (80×4) */}
           <div
             style={{
-              width: 80,
-              height: 4,
+              width: 88,
+              height: 5,
               background: "#f29d3d",
-              marginTop: 28,
-              marginBottom: 28,
-              borderRadius: 2,
+              marginTop: 30,
+              marginBottom: 30,
+              borderRadius: 3,
             }}
           />
 
           <div
             style={{
-              fontSize: 36,
-              fontWeight: 400,
+              fontSize: 38,
+              fontStyle: "italic",
               color: "#a0a6ad",
             }}
           >
-            Mechanical Engineer · Design Engineer
+            Mechanical · Design · Engineer
+          </div>
+
+          <div
+            style={{
+              marginTop: 26,
+              fontSize: 20,
+              color: "#5a6170",
+              fontFamily: "monospace",
+            }}
+          >
+            Euler-Bernoulli em tempo real · IMT · São Paulo
           </div>
         </div>
       </div>
