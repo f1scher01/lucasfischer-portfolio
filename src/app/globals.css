@@ -22,7 +22,7 @@
   --font-sans: "Geist Sans", ui-sans-serif, system-ui, sans-serif;
   --font-mono: "Geist Mono", ui-monospace, monospace;
   --font-display: "Cal Sans", "Geist Sans", sans-serif;
-  --font-editorial: "Fraunces", "Times New Roman", serif;
+  --font-editorial: var(--font-fraunces, "Fraunces"), Georgia, serif;
 
   /* Easing */
   --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);

@@ -10,6 +10,7 @@ export const sceneState = {
   py: 0, // -0.5..0.5 — ponteiro Y normalizado
   scrollVelocity: 0, // velocidade normalizada do Lenis
   reducedMotion: false,
+  autoPaused: false, // touch: pausa o loop automático de carga
 };
 
 // pub/sub leve para o HUD (DOM) — emitido ~12fps de dentro do useFrame.
