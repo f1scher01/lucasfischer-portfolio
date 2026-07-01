@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <!-- Favicon: monograma LF + curva de deflexão da viga (assinatura do site) -->
+  <rect width="64" height="64" rx="14" fill="#0d0f14"/>
+  <text x="10" y="38" font-family="Arial, Helvetica, sans-serif" font-size="26" font-weight="700" fill="#f2f3f5" letter-spacing="-1">LF</text>
+  <path d="M10 48 Q 32 58 54 48" stroke="#f29d3d" stroke-width="4.5" fill="none" stroke-linecap="round"/>
+  <path d="M7 55 L14 55 L10.5 49.5 Z" fill="#5a6170"/>
+  <path d="M50 55 L57 55 L53.5 49.5 Z" fill="#5a6170"/>
+</svg>
