@@ -74,6 +74,9 @@ export function Preloader() {
   return (
     <div ref={rootRef} className="preloader" aria-hidden>
       <div className="preloader-inner">
+        <span className="font-display text-2xl tracking-tight text-[var(--color-fg)] md:text-4xl">
+          LUCAS FISCHER
+        </span>
         <span className="caption text-[var(--color-fg-muted)]">
           Calibrando célula de carga · malha estrutural
         </span>
