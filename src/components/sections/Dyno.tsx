@@ -2,6 +2,8 @@
 
 import { useEffect, useRef, useState } from "react";
 import { ScrollReveal } from "@/components/common/ScrollReveal";
+import { RevealHeading } from "@/components/ui/RevealHeading";
+import { useLang } from "@/i18n/LangProvider";
 
 const MAX_RPM = 8200;
 const REDLINE = 6900;
@@ -34,6 +36,7 @@ export function Dyno() {
 
   const [held, setHeld] = useState(false);
   const [soundOn, setSoundOn] = useState(false);
+  const { t, lang } = useLang();
 
   useEffect(() => {
     soundOnRef.current = soundOn;
@@ -181,22 +184,25 @@ export function Dyno() {
         <ScrollReveal className="mb-10 flex items-center gap-4">
           <span className="font-mono text-sm text-[var(--color-accent)]">↻</span>
           <span className="h-px flex-1 bg-[var(--color-border)]" />
-          <p className="caption text-[var(--color-fg-muted)]">
-            Bancada · test bench
-          </p>
+          <p className="caption text-[var(--color-fg-muted)]">{t.dyno.eyebrow}</p>
         </ScrollReveal>
 
         <div className="grid items-center gap-12 md:grid-cols-12">
           <ScrollReveal className="md:col-span-5">
-            <h2 className="font-display text-3xl leading-tight tracking-tight md:text-5xl">
-              Segure o acelerador.
-              <br />
-              <span className="text-[var(--color-accent)]">Sinta o motor.</span>
-            </h2>
+            <RevealHeading
+              key={lang}
+              segments={[
+                { text: t.dyno.h1 },
+                {
+                  text: t.dyno.h2,
+                  className: "text-[var(--color-accent)]",
+                  br: true,
+                },
+              ]}
+              className="font-display text-3xl leading-tight tracking-tight md:text-5xl"
+            />
             <p className="mt-5 max-w-md text-[var(--color-fg-muted)]">
-              Uma bancada de dinamômetro em miniatura — inércia de rotação, linha
-              vermelha e som de motor real (sample de domínio público) com pitch
-              dirigido pelo RPM. Engenharia que se ouve.
+              {t.dyno.desc}
             </p>
           </ScrollReveal>
 
@@ -255,13 +261,13 @@ export function Dyno() {
                   <div className="mt-2 flex justify-between font-mono text-[0.65rem] text-[var(--color-fg-dim)]">
                     <span>0</span>
                     <span className="text-[var(--color-danger)]">
-                      redline {REDLINE.toLocaleString("pt-BR")}
+                      {t.dyno.redline} {REDLINE.toLocaleString("pt-BR")}
                     </span>
                     <span>{MAX_RPM.toLocaleString("pt-BR")}</span>
                   </div>
 
                   <p className="mt-4 font-mono text-xs text-[var(--color-fg-dim)]">
-                    velocidade simulada{" "}
+                    {t.dyno.speed}{" "}
                     <span ref={speedTextRef} className="text-[var(--color-fg-muted)]">
                       0
                     </span>{" "}
@@ -285,7 +291,7 @@ export function Dyno() {
                       : "border-[var(--color-accent)] text-[var(--color-accent)] hover:bg-[var(--color-accent)] hover:text-[var(--color-bg)]"
                   }`}
                 >
-                  {held ? "ACELERANDO…" : "SEGURE PARA ACELERAR ⏯"}
+                  {held ? t.dyno.holding : t.dyno.hold}
                 </button>
 
                 <button
@@ -295,7 +301,7 @@ export function Dyno() {
                   aria-pressed={soundOn}
                   className="rounded-full border border-[var(--color-border-strong)] px-5 py-3 text-sm text-[var(--color-fg-muted)] transition-colors hover:border-[var(--color-accent)] hover:text-[var(--color-fg)]"
                 >
-                  {soundOn ? "🔊 som ligado" : "🔈 ativar som"}
+                  {soundOn ? t.dyno.soundOn : t.dyno.soundOff}
                 </button>
               </div>
             </div>

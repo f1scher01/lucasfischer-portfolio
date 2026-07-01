@@ -5,6 +5,7 @@ import { motion, type Variants } from "motion/react";
 import { ScrollReveal } from "@/components/common/ScrollReveal";
 import { RevealHeading } from "@/components/ui/RevealHeading";
 import { SkewGroup } from "@/components/ui/SkewGroup";
+import { useLang } from "@/i18n/LangProvider";
 
 interface Project {
   title: string;
@@ -87,6 +88,8 @@ function ProjectTitle({ project }: { project: Project }) {
 }
 
 export function Work() {
+  const { t, lang } = useLang();
+
   return (
     <section
       id="work"
@@ -96,11 +99,12 @@ export function Work() {
         <ScrollReveal className="mb-12 flex items-center gap-4">
           <span className="font-mono text-sm text-[var(--color-accent)]">03</span>
           <span className="h-px flex-1 bg-[var(--color-border)]" />
-          <p className="caption text-[var(--color-fg-muted)]">Selected Work</p>
+          <p className="caption text-[var(--color-fg-muted)]">{t.work.eyebrow}</p>
         </ScrollReveal>
 
         <RevealHeading
-          segments={[{ text: "O que tenho construído" }]}
+          key={lang}
+          segments={[{ text: t.work.h }]}
           className="mb-12 font-display text-4xl tracking-tight md:text-6xl"
         />
 
@@ -112,7 +116,7 @@ export function Work() {
           whileInView="visible"
           viewport={{ once: true, margin: "-15% 0px" }}
         >
-          {PROJECTS.map((p) => (
+          {PROJECTS.map((p, pi) => (
             <motion.li
               key={p.title}
               variants={itemVariants}
@@ -121,7 +125,9 @@ export function Work() {
             >
               <div className="col-span-12 md:col-span-7">
                 <ProjectTitle project={p} />
-                <p className="mt-2 text-[var(--color-fg-muted)]">{p.blurb}</p>
+                <p className="mt-2 text-[var(--color-fg-muted)]">
+                  {t.work.projects[pi]?.blurb ?? p.blurb}
+                </p>
                 <ul className="mt-4 flex flex-wrap gap-2">
                   {p.tags.map((t) => (
                     <li
@@ -134,8 +140,12 @@ export function Work() {
                 </ul>
               </div>
               <div className="col-span-9 md:col-span-4">
-                <p className="caption text-[var(--color-fg-muted)]">Contexto</p>
-                <p className="mt-1 text-sm">{p.role}</p>
+                <p className="caption text-[var(--color-fg-muted)]">
+                  {t.work.context}
+                </p>
+                <p className="mt-1 text-sm">
+                  {t.work.projects[pi]?.role ?? p.role}
+                </p>
               </div>
               <div className="col-span-3 md:col-span-1 md:text-right">
                 {p.slug ? (

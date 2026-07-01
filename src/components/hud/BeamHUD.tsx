@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { subscribeHud } from "@/components/webgl/sceneStore";
+import { useLang } from "@/i18n/LangProvider";
 import {
   STEEL_1020,
   forceAtYield,
@@ -16,6 +17,7 @@ const F_MAX = forceAtYield(params) * 1.05;
 /** Telemetria ao vivo da viga — lê o store via subscription (~12fps). */
 export function BeamHUD() {
   const [load, setLoad] = useState(0);
+  const { t } = useLang();
 
   useEffect(() => subscribeHud(({ load }) => setLoad(load)), []);
 
@@ -28,7 +30,7 @@ export function BeamHUD() {
   return (
     <div className="rounded-lg border border-[var(--color-border)] bg-[var(--color-bg-elevated)]/70 px-4 py-3 font-mono text-xs backdrop-blur-md">
       <div className="caption mb-2 text-[var(--color-fg-muted)]">
-        Live load telemetry
+        {t.hero.hud.title}
       </div>
       <Row label="P" value={`${F.toFixed(0)} N`} />
       <Row label="σ_max" value={`${(sigma / 1e6).toFixed(1)} MPa`} warn={yielding} />
@@ -39,7 +41,7 @@ export function BeamHUD() {
       <div
         className="mt-2 h-1 w-full overflow-hidden rounded-full bg-[var(--color-border)]"
         role="meter"
-        aria-label="Utilização da tensão de escoamento"
+        aria-label={t.hero.hud.utilization}
         aria-valuemin={0}
         aria-valuemax={100}
         aria-valuenow={Math.round(Math.min(sigma / params.yieldStress, 1) * 100)}

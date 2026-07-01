@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { motion } from "motion/react";
 import { cn } from "@/lib/utils";
+import { useLang } from "@/i18n/LangProvider";
 import { MobileMenu } from "./MobileMenu";
 
 const SECTIONS = ["about", "work", "toolkit", "credentials", "contact"];
@@ -10,6 +11,7 @@ const SECTIONS = ["about", "work", "toolkit", "credentials", "contact"];
 export function Nav() {
   const [scrolled, setScrolled] = useState(false);
   const [active, setActive] = useState<string | null>(null);
+  const { lang, t, toggle } = useLang();
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 40);
@@ -75,15 +77,25 @@ export function Nav() {
           ))}
         </ul>
 
-        <a
-          href="#contact"
-          data-cursor="link"
-          className="caption hidden text-[var(--color-fg)] underline-offset-4 hover:underline md:inline"
-        >
-          Get in touch ↗
-        </a>
-
-        <MobileMenu />
+        <div className="flex items-center gap-5">
+          <button
+            type="button"
+            onClick={toggle}
+            data-cursor="link"
+            aria-label={lang === "pt" ? "Switch to English" : "Mudar para português"}
+            className="caption text-[var(--color-fg-muted)] transition-colors hover:text-[var(--color-accent)]"
+          >
+            {lang === "pt" ? "EN" : "PT"}
+          </button>
+          <a
+            href="#contact"
+            data-cursor="link"
+            className="caption hidden text-[var(--color-fg)] underline-offset-4 hover:underline md:inline"
+          >
+            {t.nav.getInTouch}
+          </a>
+          <MobileMenu />
+        </div>
       </div>
     </motion.nav>
   );

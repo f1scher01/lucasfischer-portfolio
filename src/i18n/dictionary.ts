@@ -1,0 +1,224 @@
+/**
+ * Dicionário PT/EN — fonte única de strings do site.
+ * PT é o default (pré-renderizado); EN troca no client via LangProvider.
+ */
+
+export const dict = {
+  pt: {
+    nav: { getInTouch: "Fale comigo ↗", menuOpen: "Abrir menu", menuClose: "Fechar menu" },
+    hero: {
+      kicker: "Lucas Fischer Paez · IMT · São Paulo, BR",
+      l1: "Engenheiro mecânico.",
+      l2: "Construindo sistemas digitais",
+      l3: "com a mesma precisão.",
+      sub: "Estudante de Engenharia Mecânica no IMT. Construtor de sites. Multilíngue. Disponível para trabalho premium.",
+      hint: "Mova o cursor · a viga responde",
+      badgeRunning: "simulação automática · toque para pausar",
+      badgePaused: "simulação pausada · toque para retomar",
+      hud: {
+        title: "Telemetria de carga ao vivo",
+        utilization: "Utilização da tensão de escoamento",
+      },
+    },
+    physics: {
+      eyebrow: "Física em tempo real",
+      h1: "A viga acima não é um vídeo. É ",
+      hAccent: "Euler-Bernoulli",
+      h2: " resolvida a cada frame, no seu cursor.",
+      eq: [
+        { label: "Momento de inércia", note: "seção retangular" },
+        { label: "Tensão de flexão", note: "fibra extrema" },
+        { label: "Deflexão no centro", note: "viga bi-apoiada" },
+      ],
+      specs:
+        "Aço 1020 · E = 200 GPa · σ_y = 250 MPa · L = 1 m · seção 30×50 mm · compressão fria / tração quente, como em software de FEA",
+    },
+    about: {
+      eyebrow: "Sobre mim",
+      h1: "Engenheiro em formação,",
+      h2: "construtor por natureza.",
+      lead1: "Estudante de Engenharia Mecânica no ",
+      leadAccent: "Instituto Mauá de Tecnologia",
+      lead2:
+        ", no 2º ano. Gosto de problemas que cruzam o físico e o digital — de uma análise estrutural por elementos finitos a uma transição de 200 ms.",
+      p1: "Minha base é mecânica: CAD/CAE, otimização estrutural, motores e telemetria. Mas aplico a mesma exigência de precisão quando construo experiências web — a viga aqui em cima usa a equação de Euler-Bernoulli de verdade, não um vídeo.",
+      p2: "Multilíngue (português, espanhol, inglês e francês em formação), curioso por motorsport e mercado, e movido por entregar coisas que funcionam de verdade.",
+      stats: [
+        { value: "2º ano", label: "Eng. Mecânica · IMT" },
+        { value: "+360 h", label: "Certificações técnicas" },
+        { value: "4", label: "Idiomas" },
+        { value: "CAD · CAE · Web", label: "Áreas de atuação" },
+      ],
+    },
+    disciplines: {
+      eyebrow: "Disciplinas",
+      h: "Engenharia mecânica de ponta a ponta — e o código que a apresenta.",
+      items: [
+        { title: "Vehicle Dynamics", desc: "Suspensão, transferência de carga e comportamento em pista — do modelo analítico à validação com dados." },
+        { title: "Análise Estrutural · FEA", desc: "Dimensionamento e otimização por elementos finitos: equilíbrio entre rigidez, massa e fator de segurança." },
+        { title: "Modelagem CAD", desc: "SolidWorks, NX e CATIA 3DExperience — de conjuntos mecânicos a peças prontas para manufatura." },
+        { title: "Telemetria & Dados", desc: "Aquisição, pós-processamento e decisão de setup baseada em evidência, não em intuição." },
+        { title: "Powertrain", desc: "Fundamentos de motores de combustão interna, desempenho e eficiência veicular." },
+        { title: "Web & 3D em tempo real", desc: "Next.js, React Three Fiber e shaders — a mesma precisão de engenharia aplicada à experiência digital." },
+      ],
+    },
+    dyno: {
+      eyebrow: "Bancada · test bench",
+      h1: "Segure o acelerador.",
+      h2: "Sinta o motor.",
+      desc: "Uma bancada de dinamômetro em miniatura — inércia de rotação, linha vermelha e som de motor real (sample de domínio público) com pitch dirigido pelo RPM. Engenharia que se ouve.",
+      redline: "redline",
+      speed: "velocidade simulada",
+      hold: "SEGURE PARA ACELERAR ⏯",
+      holding: "ACELERANDO…",
+      soundOn: "🔊 som ligado",
+      soundOff: "🔈 ativar som",
+    },
+    work: {
+      eyebrow: "Trabalhos selecionados",
+      h: "O que tenho construído",
+      context: "Contexto",
+      view: "Ver",
+      open: "Abrir",
+      projects: [
+        { role: "Projeto Integrador Extensionista", blurb: "Engenharia aplicada à acessibilidade — projeto extensionista no IMT, unindo CAD e necessidades reais de mobilidade." },
+        { role: "Acadêmico · CAE", blurb: "Dimensionamento e otimização de estruturas veiculares — equilíbrio entre rigidez, massa e segurança via simulação." },
+        { role: "Independente", blurb: "Este portfólio: Next.js + React Three Fiber com física real (Euler-Bernoulli) na viga do topo. Performance Lighthouse-first." },
+      ],
+    },
+    toolkit: {
+      eyebrow: "Toolkit",
+      h: "Ferramentas",
+      sub: "Cada ferramenta com aplicação real em projeto, não apenas vista em aula. As barras refletem proficiência relativa.",
+      groups: ["CAD / CAE", "Programação", "Manufatura", "Idiomas"],
+    },
+    credentials: {
+      eyebrow: "Credenciais",
+      h: "Certificações",
+      desc1: "Formação complementar no IMT — cada uma de 40 h, somando mais de ",
+      descStrong: "360 horas",
+      desc2: " em engenharia, dados e gestão.",
+      groups: ["Engenharia & CAE", "Métodos, Dados & Gestão", "Extensão & Idiomas"],
+    },
+    contact: {
+      eyebrow: "Contato",
+      h1: "Vamos construir",
+      h2: "algo sólido.",
+      desc: "Disponível para parcerias em FSAE / automotive / hardware, freelance premium de site e oportunidades acadêmicas.",
+      other: "Prefere outro canal?",
+      form: { name: "Nome", email: "Email", message: "Mensagem", send: "Enviar mensagem →", sending: "Enviando…" },
+    },
+    footer: { rights: "São Paulo, BR" },
+    preloader: { line: "Calibrando célula de carga · malha estrutural" },
+  },
+  en: {
+    nav: { getInTouch: "Get in touch ↗", menuOpen: "Open menu", menuClose: "Close menu" },
+    hero: {
+      kicker: "Lucas Fischer Paez · IMT · São Paulo, BR",
+      l1: "Mechanical engineer.",
+      l2: "Building digital systems",
+      l3: "with the same precision.",
+      sub: "Mechanical engineering student at IMT. Site builder. Multilingual. Available for premium work.",
+      hint: "Move your cursor · the beam responds",
+      badgeRunning: "auto simulation · tap to pause",
+      badgePaused: "simulation paused · tap to resume",
+      hud: {
+        title: "Live load telemetry",
+        utilization: "Yield stress utilization",
+      },
+    },
+    physics: {
+      eyebrow: "Real-time physics",
+      h1: "The beam above is not a video. It's ",
+      hAccent: "Euler-Bernoulli",
+      h2: " solved every frame, on your cursor.",
+      eq: [
+        { label: "Moment of inertia", note: "rectangular section" },
+        { label: "Bending stress", note: "extreme fiber" },
+        { label: "Center deflection", note: "simply supported beam" },
+      ],
+      specs:
+        "1020 steel · E = 200 GPa · σ_y = 250 MPa · L = 1 m · 30×50 mm section · cool compression / hot tension, like FEA software",
+    },
+    about: {
+      eyebrow: "About me",
+      h1: "Engineer in the making,",
+      h2: "builder by nature.",
+      lead1: "Mechanical Engineering student at ",
+      leadAccent: "Instituto Mauá de Tecnologia",
+      lead2:
+        ", 2nd year. I like problems that cross the physical and the digital — from a finite-element structural analysis to a 200 ms transition.",
+      p1: "My foundation is mechanical: CAD/CAE, structural optimization, engines and telemetry. But I apply the same precision when building web experiences — the beam up there runs the real Euler-Bernoulli equation, not a video.",
+      p2: "Multilingual (Portuguese, Spanish, English and French in progress), curious about motorsport and markets, and driven to ship things that actually work.",
+      stats: [
+        { value: "2nd year", label: "Mech. Eng. · IMT" },
+        { value: "+360 h", label: "Technical certifications" },
+        { value: "4", label: "Languages" },
+        { value: "CAD · CAE · Web", label: "Fields" },
+      ],
+    },
+    disciplines: {
+      eyebrow: "Disciplines",
+      h: "Mechanical engineering end to end — and the code that presents it.",
+      items: [
+        { title: "Vehicle Dynamics", desc: "Suspension, load transfer and on-track behavior — from analytical models to data validation." },
+        { title: "Structural Analysis · FEA", desc: "Finite-element sizing and optimization: balancing stiffness, mass and safety factor." },
+        { title: "CAD Modeling", desc: "SolidWorks, NX and CATIA 3DExperience — from mechanical assemblies to manufacturing-ready parts." },
+        { title: "Telemetry & Data", desc: "Acquisition, post-processing and setup decisions driven by evidence, not intuition." },
+        { title: "Powertrain", desc: "Internal combustion engine fundamentals, vehicle performance and efficiency." },
+        { title: "Web & real-time 3D", desc: "Next.js, React Three Fiber and shaders — engineering precision applied to digital experience." },
+      ],
+    },
+    dyno: {
+      eyebrow: "Test bench",
+      h1: "Hold the throttle.",
+      h2: "Feel the engine.",
+      desc: "A miniature dyno bench — rotational inertia, redline and a real engine sound (public-domain sample) with RPM-driven pitch. Engineering you can hear.",
+      redline: "redline",
+      speed: "simulated speed",
+      hold: "HOLD TO REV ⏯",
+      holding: "REVVING…",
+      soundOn: "🔊 sound on",
+      soundOff: "🔈 enable sound",
+    },
+    work: {
+      eyebrow: "Selected work",
+      h: "What I've been building",
+      context: "Context",
+      view: "View",
+      open: "Open",
+      projects: [
+        { role: "University Extension Project", blurb: "Engineering applied to accessibility — extension project at IMT, combining CAD with real mobility needs." },
+        { role: "Academic · CAE", blurb: "Sizing and optimization of vehicle structures — balancing stiffness, mass and safety through simulation." },
+        { role: "Independent", blurb: "This portfolio: Next.js + React Three Fiber with real physics (Euler-Bernoulli) in the hero beam. Lighthouse-first performance." },
+      ],
+    },
+    toolkit: {
+      eyebrow: "Toolkit",
+      h: "Tools",
+      sub: "Every tool applied in a real project, not just seen in class. Bars reflect relative proficiency.",
+      groups: ["CAD / CAE", "Programming", "Manufacturing", "Languages"],
+    },
+    credentials: {
+      eyebrow: "Credentials",
+      h: "Certifications",
+      desc1: "Complementary training at IMT — 40 h each, totaling over ",
+      descStrong: "360 hours",
+      desc2: " across engineering, data and management.",
+      groups: ["Engineering & CAE", "Methods, Data & Management", "Extension & Languages"],
+    },
+    contact: {
+      eyebrow: "Contact",
+      h1: "Let's build",
+      h2: "something solid.",
+      desc: "Available for FSAE / automotive / hardware partnerships, premium freelance web work and academic opportunities.",
+      other: "Prefer another channel?",
+      form: { name: "Name", email: "Email", message: "Message", send: "Send message →", sending: "Sending…" },
+    },
+    footer: { rights: "São Paulo, BR" },
+    preloader: { line: "Calibrating load cell · structural mesh" },
+  },
+};
+
+export type Lang = keyof typeof dict;
+export type Dict = (typeof dict)["pt"];

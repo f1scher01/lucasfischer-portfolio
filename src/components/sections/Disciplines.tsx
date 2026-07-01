@@ -1,64 +1,35 @@
+"use client";
+
 import { ScrollReveal } from "@/components/common/ScrollReveal";
 import { RevealHeading } from "@/components/ui/RevealHeading";
-
-const DISCIPLINES = [
-  {
-    n: "01",
-    title: "Vehicle Dynamics",
-    desc: "Suspensão, transferência de carga e comportamento em pista — do modelo analítico à validação com dados.",
-  },
-  {
-    n: "02",
-    title: "Análise Estrutural · FEA",
-    desc: "Dimensionamento e otimização por elementos finitos: equilíbrio entre rigidez, massa e fator de segurança.",
-  },
-  {
-    n: "03",
-    title: "Modelagem CAD",
-    desc: "SolidWorks, NX e CATIA 3DExperience — de conjuntos mecânicos a peças prontas para manufatura.",
-  },
-  {
-    n: "04",
-    title: "Telemetria & Dados",
-    desc: "Aquisição, pós-processamento e decisão de setup baseada em evidência, não em intuição.",
-  },
-  {
-    n: "05",
-    title: "Powertrain",
-    desc: "Fundamentos de motores de combustão interna, desempenho e eficiência veicular.",
-  },
-  {
-    n: "06",
-    title: "Web & 3D em tempo real",
-    desc: "Next.js, React Three Fiber e shaders — a mesma precisão de engenharia aplicada à experiência digital.",
-  },
-];
+import { useLang } from "@/i18n/LangProvider";
 
 export function Disciplines() {
+  const { t, lang } = useLang();
+
   return (
     <section className="relative border-t border-[var(--color-border)] bg-[var(--color-bg)] py-32">
       <div className="container-x">
         <ScrollReveal className="mb-12 flex items-center gap-4">
           <span className="font-mono text-sm text-[var(--color-accent)]">02</span>
           <span className="h-px flex-1 bg-[var(--color-border)]" />
-          <p className="caption text-[var(--color-fg-muted)]">Disciplinas</p>
+          <p className="caption text-[var(--color-fg-muted)]">
+            {t.disciplines.eyebrow}
+          </p>
         </ScrollReveal>
 
         <RevealHeading
-          segments={[
-            {
-              text: "Engenharia mecânica de ponta a ponta — e o código que a apresenta.",
-            },
-          ]}
+          key={lang}
+          segments={[{ text: t.disciplines.h }]}
           className="mb-16 max-w-3xl font-display text-4xl tracking-tight md:text-6xl"
         />
 
         <ul className="grid gap-px overflow-hidden rounded-lg border border-[var(--color-border)] bg-[var(--color-border)] md:grid-cols-2 lg:grid-cols-3">
-          {DISCIPLINES.map((d, i) => (
+          {t.disciplines.items.map((d, i) => (
             <ScrollReveal key={d.title} delay={(i % 3) * 0.06}>
               <li className="group h-full bg-[var(--color-bg)] p-8 transition-colors hover:bg-[var(--color-bg-elevated)]">
                 <span className="font-mono text-sm text-[var(--color-accent)]">
-                  {d.n}
+                  {String(i + 1).padStart(2, "0")}
                 </span>
                 <h3 className="mt-5 font-display text-xl tracking-tight md:text-2xl">
                   {d.title}

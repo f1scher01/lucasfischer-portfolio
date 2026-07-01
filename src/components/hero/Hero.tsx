@@ -5,6 +5,7 @@ import { motion, type Variants } from "motion/react";
 import { BeamHUD } from "@/components/hud/BeamHUD";
 import { sceneState } from "@/components/webgl/sceneStore";
 import { isCoarsePointer } from "@/lib/motion";
+import { useLang } from "@/i18n/LangProvider";
 
 const lineContainer: Variants = {
   hidden: {},
@@ -31,6 +32,7 @@ function Line({ children }: { children: React.ReactNode }) {
 export function Hero() {
   const [coarse, setCoarse] = useState(false);
   const [paused, setPaused] = useState(false);
+  const { t } = useLang();
 
   useEffect(() => setCoarse(isCoarsePointer()), []);
 
@@ -54,7 +56,7 @@ export function Hero() {
             transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1], delay: 0.1 }}
             className="caption mb-6 text-[var(--color-fg-muted)]"
           >
-            Lucas Fischer Paez · IMT · São Paulo, BR
+            {t.hero.kicker}
           </motion.p>
 
           <motion.h1
@@ -64,13 +66,11 @@ export function Hero() {
             className="font-display text-5xl tracking-tight md:text-7xl lg:text-[5.5rem]"
             style={{ lineHeight: 1.0, letterSpacing: "-0.02em" }}
           >
-            <Line>Mechanical engineer.</Line>
+            <Line>{t.hero.l1}</Line>
             <Line>
-              <span className="text-[var(--color-accent)]">
-                Building digital systems
-              </span>
+              <span className="text-[var(--color-accent)]">{t.hero.l2}</span>
             </Line>
-            <Line>with the same precision.</Line>
+            <Line>{t.hero.l3}</Line>
           </motion.h1>
         </div>
 
@@ -80,19 +80,14 @@ export function Hero() {
           transition={{ duration: 0.7, delay: 1 }}
           className="flex items-end justify-between gap-6"
         >
-          <p className="max-w-md text-[var(--color-fg-muted)]">
-            Mechanical engineering student at IMT. Site builder. Multilingual.
-            Available for premium work.
-          </p>
+          <p className="max-w-md text-[var(--color-fg-muted)]">{t.hero.sub}</p>
           {coarse ? (
             <button
               type="button"
               onClick={togglePause}
               className="caption rounded-full border border-[var(--color-border-strong)] px-4 py-2 text-[var(--color-fg-muted)]"
             >
-              {paused
-                ? "simulação pausada · toque para retomar"
-                : "simulação automática · toque para pausar"}
+              {paused ? t.hero.badgePaused : t.hero.badgeRunning}
             </button>
           ) : (
             <a
@@ -100,7 +95,7 @@ export function Hero() {
               data-cursor="link"
               className="caption group inline-flex items-center gap-2 text-[var(--color-fg)] transition-colors hover:text-[var(--color-accent)]"
             >
-              Mova o cursor · a viga responde
+              {t.hero.hint}
               <span className="inline-block transition-transform group-hover:translate-y-1">
                 ↓
               </span>

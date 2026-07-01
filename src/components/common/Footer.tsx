@@ -8,7 +8,7 @@ export function Footer() {
         <ul className="flex gap-6">
           <li>
             <a
-              href="https://github.com/lucasf22games"
+              href="https://github.com/lucasf22games-png"
               target="_blank"
               rel="noreferrer"
               className="caption transition-colors hover:text-[var(--color-accent)]"

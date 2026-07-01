@@ -4,6 +4,7 @@ import { useActionState, useEffect, useState } from "react";
 import { motion } from "motion/react";
 import { Turnstile } from "@marsidev/react-turnstile";
 import { sendContact, type ContactState } from "@/app/actions/contact";
+import { useLang } from "@/i18n/LangProvider";
 
 const TURNSTILE_SITE_KEY = process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY;
 
@@ -66,6 +67,7 @@ export function ContactForm() {
   // timestamp de render (anti-bot): setado no client pós-mount
   const [ts, setTs] = useState(0);
   useEffect(() => setTs(Date.now()), []);
+  const { t } = useLang();
 
   if (state.status === "success") {
     return (
@@ -96,9 +98,19 @@ export function ContactForm() {
       </div>
       <input type="hidden" name="_ts" value={ts} />
 
-      <Field label="Nome" name="name" error={state.errors?.name} />
-      <Field label="Email" name="email" type="email" error={state.errors?.email} />
-      <Field label="Mensagem" name="message" multiline error={state.errors?.message} />
+      <Field label={t.contact.form.name} name="name" error={state.errors?.name} />
+      <Field
+        label={t.contact.form.email}
+        name="email"
+        type="email"
+        error={state.errors?.email}
+      />
+      <Field
+        label={t.contact.form.message}
+        name="message"
+        multiline
+        error={state.errors?.message}
+      />
 
       {state.status === "error" && !state.errors ? (
         <p className="text-sm text-[var(--color-danger)]" role="alert">
@@ -119,7 +131,7 @@ export function ContactForm() {
         data-cursor="magnetic"
         className="inline-flex items-center gap-2 rounded-full border border-[var(--color-accent)] px-6 py-3 text-sm font-medium text-[var(--color-accent)] transition-colors hover:bg-[var(--color-accent)] hover:text-[var(--color-bg)] disabled:cursor-not-allowed disabled:opacity-50"
       >
-        {pending ? "Enviando…" : "Enviar mensagem →"}
+        {pending ? t.contact.form.sending : t.contact.form.send}
       </button>
     </form>
   );
