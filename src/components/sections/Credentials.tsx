@@ -1,4 +1,6 @@
 import { ScrollReveal } from "@/components/common/ScrollReveal";
+import { RevealHeading } from "@/components/ui/RevealHeading";
+import { SkewGroup } from "@/components/ui/SkewGroup";
 
 const GROUPS = [
   {
@@ -42,9 +44,10 @@ export function Credentials() {
 
         <div className="grid gap-12 md:grid-cols-12">
           <ScrollReveal className="md:col-span-4">
-            <h2 className="font-display text-4xl tracking-tight md:text-5xl">
-              Certificações
-            </h2>
+            <RevealHeading
+              segments={[{ text: "Certificações" }]}
+              className="font-display text-4xl tracking-tight md:text-5xl"
+            />
             <p className="mt-4 text-[var(--color-fg-muted)]">
               Formação complementar no IMT — cada uma de 40&nbsp;h, somando
               mais de <span className="text-[var(--color-fg)]">360 horas</span>{" "}
@@ -52,7 +55,7 @@ export function Credentials() {
             </p>
           </ScrollReveal>
 
-          <div className="space-y-12 md:col-span-7 md:col-start-6">
+          <SkewGroup className="space-y-12 md:col-span-7 md:col-start-6">
             {GROUPS.map((g, gi) => (
               <ScrollReveal key={g.title} delay={gi * 0.08}>
                 <h3 className="caption mb-5 text-[var(--color-accent)]">
@@ -75,7 +78,7 @@ export function Credentials() {
                 </ul>
               </ScrollReveal>
             ))}
-          </div>
+          </SkewGroup>
         </div>
       </div>
     </section>

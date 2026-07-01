@@ -274,7 +274,7 @@ export function Dyno() {
               <div className="mt-8 flex flex-wrap items-center gap-4">
                 <button
                   type="button"
-                  data-cursor="link"
+                  data-cursor="magnetic"
                   onPointerDown={press}
                   onPointerUp={release}
                   onPointerLeave={release}
