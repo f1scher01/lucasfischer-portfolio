@@ -1,6 +1,15 @@
 import type { Metadata } from "next";
 import { GeistSans } from "geist/font/sans";
 import { GeistMono } from "geist/font/mono";
+import { Fraunces } from "next/font/google";
+
+// Editorial serif real (antes caía no fallback Times) — self-hosted no build.
+const fraunces = Fraunces({
+  subsets: ["latin"],
+  style: ["normal", "italic"],
+  display: "swap",
+  variable: "--font-fraunces",
+});
 import { SmoothScroll } from "@/components/common/SmoothScroll";
 import { Nav } from "@/components/nav/Nav";
 import { Grain } from "@/components/common/Grain";
@@ -28,7 +37,10 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="pt-BR" className={`${GeistSans.variable} ${GeistMono.variable}`}>
+    <html
+      lang="pt-BR"
+      className={`${GeistSans.variable} ${GeistMono.variable} ${fraunces.variable}`}
+    >
       <body>
         {/* Skip-link — WCAG 2.4.1: pula a nav, visível só no foco */}
         <a

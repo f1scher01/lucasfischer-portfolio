@@ -1,7 +1,10 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import { motion, type Variants } from "motion/react";
 import { BeamHUD } from "@/components/hud/BeamHUD";
+import { sceneState } from "@/components/webgl/sceneStore";
+import { isCoarsePointer } from "@/lib/motion";
 
 const lineContainer: Variants = {
   hidden: {},
@@ -26,6 +29,16 @@ function Line({ children }: { children: React.ReactNode }) {
 }
 
 export function Hero() {
+  const [coarse, setCoarse] = useState(false);
+  const [paused, setPaused] = useState(false);
+
+  useEffect(() => setCoarse(isCoarsePointer()), []);
+
+  const togglePause = () => {
+    sceneState.autoPaused = !sceneState.autoPaused;
+    setPaused(sceneState.autoPaused);
+  };
+
   return (
     <section className="relative min-h-screen overflow-hidden">
       {/* HUD — telemetria ao vivo da viga (que vive no Canvas global atrás) */}
@@ -71,16 +84,28 @@ export function Hero() {
             Mechanical engineering student at IMT. Site builder. Multilingual.
             Available for premium work.
           </p>
-          <a
-            href="#work"
-            data-cursor="link"
-            className="caption group inline-flex items-center gap-2 text-[var(--color-fg)] transition-colors hover:text-[var(--color-accent)]"
-          >
-            Mova o cursor · a viga responde
-            <span className="inline-block transition-transform group-hover:translate-y-1">
-              ↓
-            </span>
-          </a>
+          {coarse ? (
+            <button
+              type="button"
+              onClick={togglePause}
+              className="caption rounded-full border border-[var(--color-border-strong)] px-4 py-2 text-[var(--color-fg-muted)]"
+            >
+              {paused
+                ? "simulação pausada · toque para retomar"
+                : "simulação automática · toque para pausar"}
+            </button>
+          ) : (
+            <a
+              href="#work"
+              data-cursor="link"
+              className="caption group inline-flex items-center gap-2 text-[var(--color-fg)] transition-colors hover:text-[var(--color-accent)]"
+            >
+              Mova o cursor · a viga responde
+              <span className="inline-block transition-transform group-hover:translate-y-1">
+                ↓
+              </span>
+            </a>
+          )}
         </motion.div>
       </div>
     </section>

@@ -27,7 +27,9 @@ function LoadDriver({
   useFrame((state) => {
     const t = state.clock.elapsedTime;
     if (interaction === "auto") {
-      sceneState.targetLoad = (1 - Math.cos((2 * Math.PI * t) / 5)) / 2;
+      if (!sceneState.autoPaused) {
+        sceneState.targetLoad = (1 - Math.cos((2 * Math.PI * t) / 5)) / 2;
+      }
     } else {
       const idle = reduced ? 0 : 0.06 + Math.sin(t * 0.8) * 0.05;
       sceneState.targetLoad = Math.min(
@@ -103,13 +105,14 @@ export default function SceneCanvas() {
       <directionalLight position={[-3, 1, -1]} intensity={0.3} color="#aab4c8" />
 
       <Suspense fallback={null}>
-        <Environment preset="city" />
+        {/* HDR self-hosted (sem CDN de terceiro em runtime; CSP mais estrita) */}
+        <Environment files="/hdri/city.hdr" />
       </Suspense>
 
       <Beam />
       <LoadDriver interaction={interaction} reduced={reduced} />
 
-      {interaction === "cursor" ? <Effects /> : null}
+      {interaction === "cursor" && !reduced ? <Effects /> : null}
       <AdaptiveDpr pixelated={false} />
     </Canvas>
   );

@@ -15,30 +15,40 @@ import { sceneState, emitHud } from "./sceneStore";
 const SEGMENTS = 64;
 const VISUAL_DEFLECTION_SCALE = 30; // exagera deflexão visualmente
 
-// Mapa de cores estilo FEA (Dlubal/Ansys): azul (baixa tensão) → vermelho (alta).
-const FEA_STOPS = [
-  [0.10, 0.16, 0.55], // azul escuro (0)
-  [0.13, 0.42, 0.92], // azul
-  [0.10, 0.78, 0.92], // ciano
-  [0.27, 0.85, 0.39], // verde
-  [0.78, 0.90, 0.18], // amarelo-esverdeado
-  [0.99, 0.74, 0.10], // amarelo/laranja
-  [0.93, 0.27, 0.12], // laranja-vermelho
-  [0.80, 0.07, 0.07], // vermelho (1)
-] as const;
+/**
+ * Colormap FEA de tensão ASSINADA (σ_xx = -M·y/I):
+ *   compressão (fibra superior, σ<0) → frio: aço → ciano → azul profundo
+ *   tração     (fibra inferior, σ>0) → quente: aço → amarelo → vermelho
+ *   linha neutra (y=0)               → aço escuro
+ * Igual a plot de tensão normal em software de FEA (Dlubal/Ansys).
+ */
+const NEUTRAL = [0.16, 0.19, 0.24] as const; // aço escuro
+const TENSION_MID = [0.99, 0.74, 0.1] as const; // amarelo
+const TENSION_MAX = [0.82, 0.08, 0.07] as const; // vermelho
+const COMPR_MID = [0.1, 0.78, 0.92] as const; // ciano
+const COMPR_MAX = [0.09, 0.16, 0.58] as const; // azul profundo
 
-function feaColor(t: number, target: THREE.Color): THREE.Color {
-  const clamped = Math.min(Math.max(t, 0), 0.9999);
-  const idx = clamped * (FEA_STOPS.length - 1);
-  const i = Math.floor(idx);
-  const f = idx - i;
-  const a = FEA_STOPS[i];
-  const b = FEA_STOPS[i + 1] ?? a;
+function lerp3(
+  a: readonly number[],
+  b: readonly number[],
+  f: number,
+  target: THREE.Color,
+): THREE.Color {
   return target.setRGB(
     a[0] + (b[0] - a[0]) * f,
     a[1] + (b[1] - a[1]) * f,
     a[2] + (b[2] - a[2]) * f,
   );
+}
+
+/** s ∈ [-1, 1] — negativo = compressão (frio), positivo = tração (quente). */
+function signedFeaColor(s: number, target: THREE.Color): THREE.Color {
+  // potência 0.7 amplifica visualmente cargas médias (não-linear)
+  const t = Math.pow(Math.min(Math.abs(s), 1), 0.7);
+  const mid = s >= 0 ? TENSION_MID : COMPR_MID;
+  const max = s >= 0 ? TENSION_MAX : COMPR_MAX;
+  if (t < 0.5) return lerp3(NEUTRAL, mid, t * 2, target);
+  return lerp3(mid, max, (t - 0.5) * 2, target);
 }
 
 /**
@@ -105,12 +115,17 @@ export function Beam() {
     const xCoords = geo.attributes.xCoord;
     const colors = geo.attributes.color;
 
+    const halfH = params.h / 2;
     for (let i = 0; i < positions.count; i++) {
       const xBeam = xCoords.getX(i) + params.L / 2;
       const y = deflection(xBeam, F, params) * VISUAL_DEFLECTION_SCALE;
-      positions.setY(i, restY.getX(i) + y);
-      const sigma = bendingStress(xBeam, F, params);
-      feaColor(normalizedStress(sigma, params.yieldStress), scratch);
+      const yFiber = restY.getX(i); // posição da fibra na seção [-h/2, +h/2]
+      positions.setY(i, yFiber + y);
+      // σ_xx = -M·y/I → topo comprime (s<0), base traciona (s>0)
+      const sigmaMax = bendingStress(xBeam, F, params); // na fibra extrema
+      const s =
+        normalizedStress(sigmaMax, params.yieldStress) * (-yFiber / halfH);
+      signedFeaColor(s, scratch);
       colors.setXYZ(i, scratch.r, scratch.g, scratch.b);
     }
     positions.needsUpdate = true;

@@ -32,8 +32,31 @@ export function BeamHUD() {
       </div>
       <Row label="P" value={`${F.toFixed(0)} N`} />
       <Row label="σ_max" value={`${(sigma / 1e6).toFixed(1)} MPa`} warn={yielding} />
-      <Row label="δ_center" value={`${(delta * 1000).toFixed(2)} mm`} />
+      <Row label="δ_max" value={`${(delta * 1000).toFixed(2)} mm`} />
       <Row label="FS" value={fs > 100 ? "∞" : fs.toFixed(2)} warn={fs < 1.5} />
+
+      {/* utilização σ/σ_y — enche rumo ao escoamento */}
+      <div
+        className="mt-2 h-1 w-full overflow-hidden rounded-full bg-[var(--color-border)]"
+        role="meter"
+        aria-label="Utilização da tensão de escoamento"
+        aria-valuemin={0}
+        aria-valuemax={100}
+        aria-valuenow={Math.round(Math.min(sigma / params.yieldStress, 1) * 100)}
+      >
+        <div
+          className="h-full rounded-full transition-transform duration-100"
+          style={{
+            transformOrigin: "left",
+            transform: `scaleX(${Math.min(sigma / params.yieldStress, 1)})`,
+            background: yielding ? "var(--color-danger)" : "var(--color-accent)",
+          }}
+        />
+      </div>
+      <div className="mt-1 flex justify-between text-[0.6rem] text-[var(--color-fg-dim)]">
+        <span>0</span>
+        <span>σ_y</span>
+      </div>
     </div>
   );
 }
