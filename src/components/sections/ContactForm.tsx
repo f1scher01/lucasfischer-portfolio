@@ -90,6 +90,7 @@ export function ContactForm() {
       <button
         type="submit"
         disabled={pending}
+        data-cursor="magnetic"
         className="inline-flex items-center gap-2 rounded-full border border-[var(--color-accent)] px-6 py-3 text-sm font-medium text-[var(--color-accent)] transition-colors hover:bg-[var(--color-accent)] hover:text-[var(--color-bg)] disabled:cursor-not-allowed disabled:opacity-50"
       >
         {pending ? "Enviando…" : "Enviar mensagem →"}

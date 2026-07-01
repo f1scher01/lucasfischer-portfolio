@@ -1,8 +1,9 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { motion, AnimatePresence } from "motion/react";
+import { motion } from "motion/react";
 import { cn } from "@/lib/utils";
+import { MobileMenu } from "./MobileMenu";
 
 const SECTIONS = ["about", "work", "toolkit", "credentials", "contact"];
 
@@ -76,10 +77,13 @@ export function Nav() {
 
         <a
           href="#contact"
-          className="caption text-[var(--color-fg)] underline-offset-4 hover:underline"
+          data-cursor="link"
+          className="caption hidden text-[var(--color-fg)] underline-offset-4 hover:underline md:inline"
         >
           Get in touch ↗
         </a>
+
+        <MobileMenu />
       </div>
     </motion.nav>
   );

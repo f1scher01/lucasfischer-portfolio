@@ -2,6 +2,7 @@
 
 import { motion, type Variants } from "motion/react";
 import { ScrollReveal } from "@/components/common/ScrollReveal";
+import { RevealHeading } from "@/components/ui/RevealHeading";
 
 interface Skill {
   name: string;
@@ -94,9 +95,10 @@ export function Toolkit() {
         </ScrollReveal>
 
         <ScrollReveal className="mb-16">
-          <h2 className="font-display text-4xl tracking-tight md:text-6xl">
-            Ferramentas
-          </h2>
+          <RevealHeading
+            segments={[{ text: "Ferramentas" }]}
+            className="font-display text-4xl tracking-tight md:text-6xl"
+          />
           <p className="mt-4 max-w-xl text-[var(--color-fg-muted)]">
             Cada ferramenta com aplicação real em projeto, não apenas vista em
             aula. As barras refletem proficiência relativa.

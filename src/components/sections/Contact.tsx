@@ -1,5 +1,6 @@
 import { ScrollReveal } from "@/components/common/ScrollReveal";
 import { ContactForm } from "@/components/sections/ContactForm";
+import { RevealHeading } from "@/components/ui/RevealHeading";
 
 export function Contact() {
   return (
@@ -20,13 +21,17 @@ export function Contact() {
           <p className="caption text-[var(--color-fg-muted)]">Contact</p>
         </ScrollReveal>
 
-        <ScrollReveal delay={0.1}>
-          <h2 className="font-display text-5xl tracking-tight md:text-8xl">
-            Let&apos;s build
-            <br />
-            <span className="text-[var(--color-accent)]">something solid.</span>
-          </h2>
-        </ScrollReveal>
+        <RevealHeading
+          segments={[
+            { text: "Let's build" },
+            {
+              text: "something solid.",
+              className: "text-[var(--color-accent)]",
+              br: true,
+            },
+          ]}
+          className="font-display text-5xl tracking-tight md:text-8xl"
+        />
 
         <div className="mt-16 grid gap-16 md:grid-cols-12">
           <ScrollReveal delay={0.2} className="md:col-span-5">

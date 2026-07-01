@@ -1,4 +1,5 @@
 import { ScrollReveal } from "@/components/common/ScrollReveal";
+import { RevealHeading } from "@/components/ui/RevealHeading";
 
 const EQUATIONS = [
   { label: "Momento de inércia", expr: "I = b·h³ ⁄ 12", note: "seção retangular" },
@@ -16,13 +17,14 @@ export function Physics() {
           <p className="caption text-[var(--color-fg-muted)]">Real-time physics</p>
         </ScrollReveal>
 
-        <ScrollReveal>
-          <h2 className="max-w-3xl font-display text-3xl leading-tight tracking-tight md:text-5xl">
-            A viga acima não é um vídeo. É{" "}
-            <span className="text-[var(--color-accent)]">Euler-Bernoulli</span>{" "}
-            resolvida a cada frame, no seu cursor.
-          </h2>
-        </ScrollReveal>
+        <RevealHeading
+          segments={[
+            { text: "A viga acima não é um vídeo. É " },
+            { text: "Euler-Bernoulli", className: "text-[var(--color-accent)]" },
+            { text: " resolvida a cada frame, no seu cursor." },
+          ]}
+          className="max-w-3xl font-display text-3xl leading-tight tracking-tight md:text-5xl"
+        />
 
         <div className="mt-12 grid gap-6 md:grid-cols-3">
           {EQUATIONS.map((e, i) => (

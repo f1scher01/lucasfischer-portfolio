@@ -3,6 +3,8 @@
 import Link from "next/link";
 import { motion, type Variants } from "motion/react";
 import { ScrollReveal } from "@/components/common/ScrollReveal";
+import { RevealHeading } from "@/components/ui/RevealHeading";
+import { SkewGroup } from "@/components/ui/SkewGroup";
 
 interface Project {
   title: string;
@@ -97,12 +99,12 @@ export function Work() {
           <p className="caption text-[var(--color-fg-muted)]">Selected Work</p>
         </ScrollReveal>
 
-        <ScrollReveal className="mb-12">
-          <h2 className="font-display text-4xl tracking-tight md:text-6xl">
-            O que tenho construído
-          </h2>
-        </ScrollReveal>
+        <RevealHeading
+          segments={[{ text: "O que tenho construído" }]}
+          className="mb-12 font-display text-4xl tracking-tight md:text-6xl"
+        />
 
+        <SkewGroup>
         <motion.ul
           className="divide-y divide-[var(--color-border)] border-t border-[var(--color-border)]"
           variants={listVariants}
@@ -161,6 +163,7 @@ export function Work() {
             </motion.li>
           ))}
         </motion.ul>
+        </SkewGroup>
       </div>
     </section>
   );

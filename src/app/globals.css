@@ -171,6 +171,41 @@ html.has-custom-cursor * {
   background: rgba(255, 255, 255, 0.12);
 }
 
+/* estado "magnetic" — cursor gruda no elemento */
+.cursor-ring[data-state="magnetic"] {
+  width: 64px;
+  height: 64px;
+  margin: -32px 0 0 -32px;
+  border-color: var(--color-accent);
+  background: color-mix(in oklch, var(--color-accent) 18%, transparent);
+  mix-blend-mode: normal;
+}
+
+/* click — anel comprime */
+.cursor-ring[data-pressed="true"] {
+  transform-origin: center;
+  scale: 0.72;
+}
+
+/* trail gooey — blobs fundidos pelo filtro SVG */
+.cursor-trail {
+  position: fixed;
+  inset: 0;
+  z-index: 89;
+  pointer-events: none;
+  filter: url(#cursor-goo);
+  opacity: 0;
+  transition: opacity 0.25s ease;
+}
+.cursor-blob {
+  position: fixed;
+  top: 0;
+  left: 0;
+  border-radius: 9999px;
+  background: var(--color-accent);
+  will-change: transform;
+}
+
 /* ===== Preloader (1º load) ===== */
 .preloader {
   position: fixed;

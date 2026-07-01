@@ -1,4 +1,5 @@
 import { ScrollReveal } from "@/components/common/ScrollReveal";
+import { RevealHeading } from "@/components/ui/RevealHeading";
 
 const DISCIPLINES = [
   {
@@ -43,11 +44,14 @@ export function Disciplines() {
           <p className="caption text-[var(--color-fg-muted)]">Disciplinas</p>
         </ScrollReveal>
 
-        <ScrollReveal className="mb-16">
-          <h2 className="max-w-3xl font-display text-4xl tracking-tight md:text-6xl">
-            Engenharia mecânica de ponta a ponta — e o código que a apresenta.
-          </h2>
-        </ScrollReveal>
+        <RevealHeading
+          segments={[
+            {
+              text: "Engenharia mecânica de ponta a ponta — e o código que a apresenta.",
+            },
+          ]}
+          className="mb-16 max-w-3xl font-display text-4xl tracking-tight md:text-6xl"
+        />
 
         <ul className="grid gap-px overflow-hidden rounded-lg border border-[var(--color-border)] bg-[var(--color-border)] md:grid-cols-2 lg:grid-cols-3">
           {DISCIPLINES.map((d, i) => (

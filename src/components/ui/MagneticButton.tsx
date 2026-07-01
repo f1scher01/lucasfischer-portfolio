@@ -48,6 +48,7 @@ export function MagneticButton({
     <Component
       ref={ref as any}
       href={href}
+      data-cursor="magnetic"
       onClick={onClick}
       onPointerMove={handleMove}
       onPointerLeave={handleLeave}
