@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import { gsap } from "gsap";
 import { prefersReducedMotion } from "@/lib/motion";
 import { lenisRef } from "@/components/common/lenisRef";
+import { useLang } from "@/i18n/LangProvider";
 
 /**
  * Boot de "ensaio": contador 0→100 em mono + reveal (a cortina sobe expondo a
@@ -14,6 +15,7 @@ export function Preloader() {
   const rootRef = useRef<HTMLDivElement>(null);
   const countRef = useRef<HTMLSpanElement>(null);
   const [done, setDone] = useState(false);
+  const { t } = useLang();
 
   useEffect(() => {
     if (sessionStorage.getItem("entered") === "1") {
@@ -78,7 +80,7 @@ export function Preloader() {
           LUCAS FISCHER
         </span>
         <span className="caption text-[var(--color-fg-muted)]">
-          Calibrando célula de carga · malha estrutural
+          {t.preloader.line}
         </span>
         <span ref={countRef} className="preloader-count">
           000

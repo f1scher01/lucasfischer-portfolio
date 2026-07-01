@@ -16,6 +16,7 @@ import { Grain } from "@/components/common/Grain";
 import { SceneLayer } from "@/components/webgl/SceneLayer";
 import { Cursor } from "@/components/ui/Cursor";
 import { Preloader } from "@/components/preloader/Preloader";
+import { LangProvider } from "@/i18n/LangProvider";
 import "./globals.css";
 
 // JSON-LD Person — dados estruturados p/ Google (schema.org)
@@ -70,15 +71,17 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           Pular para o conteúdo
         </a>
         <SceneLayer />
-        <SmoothScroll>
-          <Nav />
-          <main id="main" className="relative z-10">
-            {children}
-          </main>
-        </SmoothScroll>
-        <Grain />
-        <Cursor />
-        <Preloader />
+        <LangProvider>
+          <SmoothScroll>
+            <Nav />
+            <main id="main" className="relative z-10">
+              {children}
+            </main>
+          </SmoothScroll>
+          <Grain />
+          <Cursor />
+          <Preloader />
+        </LangProvider>
       </body>
     </html>
   );

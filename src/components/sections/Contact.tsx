@@ -1,8 +1,13 @@
+"use client";
+
 import { ScrollReveal } from "@/components/common/ScrollReveal";
 import { ContactForm } from "@/components/sections/ContactForm";
 import { RevealHeading } from "@/components/ui/RevealHeading";
+import { useLang } from "@/i18n/LangProvider";
 
 export function Contact() {
+  const { t, lang } = useLang();
+
   return (
     <section
       id="contact"
@@ -18,14 +23,17 @@ export function Contact() {
         <ScrollReveal className="mb-12 flex items-center gap-4">
           <span className="font-mono text-sm text-[var(--color-accent)]">06</span>
           <span className="h-px flex-1 bg-[var(--color-border)]" />
-          <p className="caption text-[var(--color-fg-muted)]">Contact</p>
+          <p className="caption text-[var(--color-fg-muted)]">
+            {t.contact.eyebrow}
+          </p>
         </ScrollReveal>
 
         <RevealHeading
+          key={lang}
           segments={[
-            { text: "Let's build" },
+            { text: t.contact.h1 },
             {
-              text: "something solid.",
+              text: t.contact.h2,
               className: "text-[var(--color-accent)]",
               br: true,
             },
@@ -36,11 +44,10 @@ export function Contact() {
         <div className="mt-16 grid gap-16 md:grid-cols-12">
           <ScrollReveal delay={0.2} className="md:col-span-5">
             <p className="text-lg text-[var(--color-fg-muted)]">
-              Disponível para parcerias em FSAE / automotive / hardware,
-              freelance premium de site e oportunidades acadêmicas.
+              {t.contact.desc}
             </p>
             <p className="mt-8 text-sm text-[var(--color-fg-muted)]">
-              Prefere outro canal?{" "}
+              {t.contact.other}{" "}
               <a
                 href="https://linkedin.com/in/lucasfischerpaez"
                 target="_blank"
