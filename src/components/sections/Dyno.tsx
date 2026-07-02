@@ -50,7 +50,49 @@ interface Engine {
   master: GainNode;
   comp: DynamicsCompressorNode;
   noise: AudioBuffer | null;
+  blip: AudioBuffer | null; // gravação REAL de V8 (Mercedes S63 AMG, CC0)
+  duckUntil: number; // enquanto o blip toca, os loops abaixam
   ready: boolean;
+}
+
+/** Rajada de estouros de escape (burble/overrun) — o som de soltar o pé. */
+function playBurble(e: Engine, intensity: number) {
+  if (!e.noise) return;
+  const t0 = e.ctx.currentTime;
+  const n = 5 + Math.floor(intensity * 7);
+  let t = t0;
+  for (let i = 0; i < n; i++) {
+    t += 0.035 + Math.random() * 0.075;
+    const pop = e.ctx.createBufferSource();
+    pop.buffer = e.noise;
+    pop.playbackRate.value = 0.55 + Math.random() * 0.7;
+    const bp = e.ctx.createBiquadFilter();
+    bp.type = "bandpass";
+    bp.frequency.value = 220 + Math.random() * 560;
+    bp.Q.value = 0.9;
+    const g = e.ctx.createGain();
+    const loud = (0.2 + Math.random() * 0.42) * intensity;
+    g.gain.setValueAtTime(loud, t);
+    g.gain.exponentialRampToValueAtTime(0.001, t + 0.05 + Math.random() * 0.06);
+    pop.connect(bp);
+    bp.connect(g);
+    g.connect(e.comp);
+    pop.start(t);
+    pop.stop(t + 0.13);
+  }
+}
+
+/** Toca a gravação real de rev (na ativação do som) e abaixa os loops. */
+function playRevBlip(e: Engine) {
+  if (!e.blip) return;
+  const src = e.ctx.createBufferSource();
+  src.buffer = e.blip;
+  const g = e.ctx.createGain();
+  g.gain.value = 0.9;
+  src.connect(g);
+  g.connect(e.comp);
+  src.start();
+  e.duckUntil = e.ctx.currentTime + e.blip.duration - 0.5;
 }
 
 export function Dyno() {
@@ -85,6 +127,7 @@ export function Dyno() {
     let speed = 0;
     let shiftT = 0;
     let shiftPopPending = false;
+    let prevOn = false; // p/ detectar lift-off (solta o acelerador)
     // cronômetro 0-100 — máquina de estados explícita
     let runState: "ready" | "running" | "done" = "ready";
     let t0 = 0;
@@ -210,14 +253,19 @@ export function Dyno() {
       const e = engineRef.current;
       if (e && e.ready) {
         const tNow = e.ctx.currentTime;
+        // burble de escape ao SOLTAR o acelerador em giro alto (overrun)
+        if (prevOn && !on && rpm > 4200 && soundOnRef.current) {
+          playBurble(e, Math.min((rpm - 3500) / (MAX_RPM - 3500), 1));
+        }
         const cut = shiftT > 0 ? 0.3 : 1;
+        const duck = tNow < e.duckUntil ? 0.22 : 1; // blip real em 1º plano
         for (let i = 0; i < BANDS.length; i++) {
           const src = e.srcs[i];
           if (!src) continue;
           const rate = Math.min(Math.max(rpm / BANDS[i].center, 0.62), 1.45);
           src.playbackRate.setTargetAtTime(rate, tNow, 0.05);
           const g = soundOnRef.current
-            ? bandGain(rpm, BANDS[i]) * (0.16 + rpmFrac * 0.5) * cut
+            ? bandGain(rpm, BANDS[i]) * (0.2 + rpmFrac * 0.55) * cut * duck
             : 0;
           e.bandGains[i].gain.setTargetAtTime(g, tNow, 0.05);
         }
@@ -249,6 +297,7 @@ export function Dyno() {
           shiftPopPending = false;
         }
       }
+      prevOn = on;
 
       raf = requestAnimationFrame(loop);
     };
@@ -331,19 +380,28 @@ export function Dyno() {
         master,
         comp,
         noise,
+        blip: null,
+        duckUntil: 0,
         ready: false,
       };
       engineRef.current = engine;
 
-      Promise.all(
-        BANDS.map((b) =>
+      Promise.all([
+        ...BANDS.map((b) =>
           fetch(b.file)
             .then((r) => r.arrayBuffer())
             .then((buf) => ctx.decodeAudioData(buf)),
         ),
-      )
+        // gravação real: Mercedes S63 AMG V8 biturbo (freesound 505321, CC0)
+        fetch("/sounds/rev-blip.mp3")
+          .then((r) => r.arrayBuffer())
+          .then((buf) => ctx.decodeAudioData(buf))
+          .catch(() => null),
+      ])
         .then((buffers) => {
-          buffers.forEach((buffer, i) => {
+          BANDS.forEach((_, i) => {
+            const buffer = buffers[i];
+            if (!buffer) return;
             const src = ctx.createBufferSource();
             src.buffer = buffer;
             src.loop = true;
@@ -351,7 +409,10 @@ export function Dyno() {
             src.start();
             engine.srcs[i] = src;
           });
+          engine.blip = buffers[BANDS.length] ?? null;
           engine.ready = true;
+          // "partida": rev real de V8 dá o tom assim que o som liga
+          if (soundOnRef.current) playRevBlip(engine);
         })
         .catch(() => {});
     } catch {
@@ -376,8 +437,12 @@ export function Dyno() {
     soundOnRef.current = v;
     setSoundOn(v);
     if (v) {
+      const hadEngine = !!engineRef.current;
       ensureEngine();
-      void engineRef.current?.ctx.resume?.();
+      const e = engineRef.current;
+      void e?.ctx.resume?.();
+      // religou com engine já carregada → rev de partida de novo
+      if (hadEngine && e?.ready) playRevBlip(e);
     }
   }
 
