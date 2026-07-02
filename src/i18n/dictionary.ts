@@ -70,7 +70,7 @@ export const dict = {
       h2: "Sinta o motor.",
       desc: "Simulação longitudinal de um supercarro: câmbio de 6 marchas com corte de torque, arrasto aerodinâmico e som de motor com pitch, distorção e sub graves dirigidos pelo RPM. Cronometre seu 0–100.",
       specs:
-        "6 marchas · troca @ 7.900 rpm · 0–100 km/h ≈ 3,2 s · 3 bandas de som real em crossfade",
+        "6 marchas · 0–100 ≈ 3,2 s · rev real de V8 (AMG) na partida · burble no lift-off",
       redline: "redline",
       gear: "marcha",
       best: "melhor",
@@ -184,7 +184,7 @@ export const dict = {
       h2: "Feel the engine.",
       desc: "Longitudinal supercar simulation: 6-speed gearbox with torque cut, aero drag, and an engine sound with RPM-driven pitch, distortion and sub bass. Time your 0–100.",
       specs:
-        "6 gears · shift @ 7,900 rpm · 0–100 km/h ≈ 3.2 s · 3 real sound bands crossfaded",
+        "6 gears · 0–100 ≈ 3.2 s · real V8 rev (AMG) on start · lift-off burble",
       redline: "redline",
       gear: "gear",
       best: "best",
