@@ -16,39 +16,36 @@ const SEGMENTS = 64;
 const VISUAL_DEFLECTION_SCALE = 30; // exagera deflexão visualmente
 
 /**
- * Colormap FEA de tensão ASSINADA (σ_xx = -M·y/I):
- *   compressão (fibra superior, σ<0) → frio: aço → ciano → azul profundo
- *   tração     (fibra inferior, σ>0) → quente: aço → amarelo → vermelho
- *   linha neutra (y=0)               → aço escuro
- * Igual a plot de tensão normal em software de FEA (Dlubal/Ansys).
+ * Colormap "jet" clássico de FEA (Ansys/Dlubal), NORMALIZADO PELO CAMPO ATUAL
+ * — como nos prints de simulação: azul = compressão máxima do estado atual,
+ * verde = linha neutra, vermelho = tração máxima. O rainbow completo aparece
+ * em qualquer carga (as cores são relativas ao min/max do campo, não a σ_y).
  */
-const NEUTRAL = [0.16, 0.19, 0.24] as const; // aço escuro
-const TENSION_MID = [0.99, 0.74, 0.1] as const; // amarelo
-const TENSION_MAX = [0.82, 0.08, 0.07] as const; // vermelho
-const COMPR_MID = [0.1, 0.78, 0.92] as const; // ciano
-const COMPR_MAX = [0.09, 0.16, 0.58] as const; // azul profundo
+const JET_STOPS = [
+  [0.05, 0.03, 0.53], // azul profundo (compressão máx)
+  [0.0, 0.32, 0.94], // azul
+  [0.0, 0.7, 0.95], // ciano
+  [0.1, 0.85, 0.5], // verde-ciano
+  [0.35, 0.85, 0.2], // verde (neutro)
+  [0.85, 0.92, 0.1], // amarelo
+  [1.0, 0.62, 0.0], // laranja
+  [0.98, 0.25, 0.03], // laranja-vermelho
+  [0.78, 0.03, 0.05], // vermelho (tração máx)
+] as const;
 
-function lerp3(
-  a: readonly number[],
-  b: readonly number[],
-  f: number,
-  target: THREE.Color,
-): THREE.Color {
+/** t ∈ [0,1] → jet (0 = compressão máx, 0.5 = neutro, 1 = tração máx). */
+function jetColor(t: number, target: THREE.Color): THREE.Color {
+  const clamped = Math.min(Math.max(t, 0), 0.9999);
+  const idx = clamped * (JET_STOPS.length - 1);
+  const i = Math.floor(idx);
+  const f = idx - i;
+  const a = JET_STOPS[i];
+  const b = JET_STOPS[i + 1] ?? a;
   return target.setRGB(
     a[0] + (b[0] - a[0]) * f,
     a[1] + (b[1] - a[1]) * f,
     a[2] + (b[2] - a[2]) * f,
   );
-}
-
-/** s ∈ [-1, 1] — negativo = compressão (frio), positivo = tração (quente). */
-function signedFeaColor(s: number, target: THREE.Color): THREE.Color {
-  // potência 0.7 amplifica visualmente cargas médias (não-linear)
-  const t = Math.pow(Math.min(Math.abs(s), 1), 0.7);
-  const mid = s >= 0 ? TENSION_MID : COMPR_MID;
-  const max = s >= 0 ? TENSION_MAX : COMPR_MAX;
-  if (t < 0.5) return lerp3(NEUTRAL, mid, t * 2, target);
-  return lerp3(mid, max, (t - 0.5) * 2, target);
 }
 
 /**
@@ -116,6 +113,12 @@ export function Beam() {
     const colors = geo.attributes.color;
 
     const halfH = params.h / 2;
+    // normalização pelo campo ATUAL (σ_max do estado) — mantém o rainbow
+    // completo em qualquer carga, como nos prints de software de FEA
+    const fieldMax = Math.max(
+      normalizedStress(bendingStress(params.L / 2, F, params), params.yieldStress),
+      0.02,
+    );
     for (let i = 0; i < positions.count; i++) {
       const xBeam = xCoords.getX(i) + params.L / 2;
       const y = deflection(xBeam, F, params) * VISUAL_DEFLECTION_SCALE;
@@ -125,7 +128,7 @@ export function Beam() {
       const sigmaMax = bendingStress(xBeam, F, params); // na fibra extrema
       const s =
         normalizedStress(sigmaMax, params.yieldStress) * (-yFiber / halfH);
-      signedFeaColor(s, scratch);
+      jetColor((s / fieldMax + 1) / 2, scratch);
       colors.setXYZ(i, scratch.r, scratch.g, scratch.b);
     }
     positions.needsUpdate = true;
