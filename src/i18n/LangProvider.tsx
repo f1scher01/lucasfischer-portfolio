@@ -40,7 +40,7 @@ export function LangProvider({ children }: { children: ReactNode }) {
     setLang((prev) => {
       const next: Lang = prev === "pt" ? "en" : "pt";
       localStorage.setItem("lang", next);
-      document.cookie = `lang=${next}; path=/; max-age=31536000; SameSite=Lax`;
+      document.cookie = `lang=${next}; path=/; max-age=31536000; SameSite=Lax; Secure`;
       document.documentElement.lang = next === "pt" ? "pt-BR" : "en";
       return next;
     });
