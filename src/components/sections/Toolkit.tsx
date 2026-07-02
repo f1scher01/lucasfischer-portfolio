@@ -43,7 +43,7 @@ const GROUPS: { title: string; items: Skill[] }[] = [
       { name: "Português (nativo)", level: 100 },
       { name: "Español (avançado)", level: 92 },
       { name: "English (C1)", level: 85 },
-      { name: "Français (básico)", level: 35 },
+      { name: "Français (B1)", level: 58 },
     ],
   },
 ];

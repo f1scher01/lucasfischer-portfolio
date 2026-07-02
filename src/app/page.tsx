@@ -1,4 +1,5 @@
 import { Hero } from "@/components/hero/Hero";
+import { Marquee } from "@/components/common/Marquee";
 import { Physics } from "@/components/sections/Physics";
 import { About } from "@/components/sections/About";
 import { Disciplines } from "@/components/sections/Disciplines";
@@ -13,6 +14,7 @@ export default function HomePage() {
   return (
     <>
       <Hero />
+      <Marquee />
       <Physics />
       <About />
       <Disciplines />

@@ -63,8 +63,8 @@ export function Hero() {
             variants={lineContainer}
             initial="hidden"
             animate="visible"
-            className="font-display text-5xl tracking-tight md:text-7xl lg:text-[5.5rem]"
-            style={{ lineHeight: 1.0, letterSpacing: "-0.02em" }}
+            className="font-display text-5xl font-bold uppercase md:text-7xl lg:text-[6.2rem]"
+            style={{ lineHeight: 0.95, letterSpacing: "-0.025em" }}
           >
             <Line>{t.hero.l1}</Line>
             <Line>

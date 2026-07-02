@@ -18,6 +18,8 @@ export const dict = {
       hud: {
         title: "Telemetria de carga ao vivo",
         utilization: "Utilização da tensão de escoamento",
+        compression: "compressão",
+        tension: "tração",
       },
     },
     physics: {
@@ -42,7 +44,7 @@ export const dict = {
       lead2:
         ", no 2º ano. Gosto de problemas que cruzam o físico e o digital — de uma análise estrutural por elementos finitos a uma transição de 200 ms.",
       p1: "Minha base é mecânica: CAD/CAE, otimização estrutural, motores e telemetria. Mas aplico a mesma exigência de precisão quando construo experiências web — a viga aqui em cima usa a equação de Euler-Bernoulli de verdade, não um vídeo.",
-      p2: "Multilíngue (português, espanhol, inglês e francês em formação), curioso por motorsport e mercado, e movido por entregar coisas que funcionam de verdade.",
+      p2: "Multilíngue (português, espanhol, inglês C1 e francês B1), curioso por motorsport e mercado, e movido por entregar coisas que funcionam de verdade.",
       stats: [
         { value: "2º ano", label: "Eng. Mecânica · IMT" },
         { value: "+360 h", label: "Certificações técnicas" },
@@ -66,9 +68,10 @@ export const dict = {
       eyebrow: "Bancada · test bench",
       h1: "Segure o acelerador.",
       h2: "Sinta o motor.",
-      desc: "Uma bancada de dinamômetro em miniatura — inércia de rotação, linha vermelha e som de motor real (sample de domínio público) com pitch dirigido pelo RPM. Engenharia que se ouve.",
+      desc: "Simulação longitudinal de um supercarro: câmbio de 6 marchas com corte de torque, arrasto aerodinâmico e som de motor com pitch, distorção e sub graves dirigidos pelo RPM. Cronometre seu 0–100.",
+      specs: "6 marchas · troca @ 7.900 rpm · 0–100 km/h ≈ 3,1 s · arrasto ∝ v",
       redline: "redline",
-      speed: "velocidade simulada",
+      gear: "marcha",
       hold: "SEGURE PARA ACELERAR ⏯",
       holding: "ACELERANDO…",
       soundOn: "🔊 som ligado",
@@ -125,6 +128,8 @@ export const dict = {
       hud: {
         title: "Live load telemetry",
         utilization: "Yield stress utilization",
+        compression: "compression",
+        tension: "tension",
       },
     },
     physics: {
@@ -149,7 +154,7 @@ export const dict = {
       lead2:
         ", 2nd year. I like problems that cross the physical and the digital — from a finite-element structural analysis to a 200 ms transition.",
       p1: "My foundation is mechanical: CAD/CAE, structural optimization, engines and telemetry. But I apply the same precision when building web experiences — the beam up there runs the real Euler-Bernoulli equation, not a video.",
-      p2: "Multilingual (Portuguese, Spanish, English and French in progress), curious about motorsport and markets, and driven to ship things that actually work.",
+      p2: "Multilingual (Portuguese, Spanish, C1 English and B1 French), curious about motorsport and markets, and driven to ship things that actually work.",
       stats: [
         { value: "2nd year", label: "Mech. Eng. · IMT" },
         { value: "+360 h", label: "Technical certifications" },
@@ -173,11 +178,12 @@ export const dict = {
       eyebrow: "Test bench",
       h1: "Hold the throttle.",
       h2: "Feel the engine.",
-      desc: "A miniature dyno bench — rotational inertia, redline and a real engine sound (public-domain sample) with RPM-driven pitch. Engineering you can hear.",
+      desc: "Longitudinal supercar simulation: 6-speed gearbox with torque cut, aero drag, and an engine sound with RPM-driven pitch, distortion and sub bass. Time your 0–100.",
+      specs: "6 gears · shift @ 7,900 rpm · 0–100 km/h ≈ 3.1 s · drag ∝ v",
       redline: "redline",
-      speed: "simulated speed",
-      hold: "HOLD TO REV ⏯",
-      holding: "REVVING…",
+      gear: "gear",
+      hold: "HOLD TO LAUNCH ⏯",
+      holding: "ACCELERATING…",
       soundOn: "🔊 sound on",
       soundOff: "🔈 enable sound",
     },

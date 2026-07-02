@@ -59,6 +59,23 @@ export function BeamHUD() {
         <span>0</span>
         <span>σ_y</span>
       </div>
+
+      {/* legenda do colormap — escala relativa do campo atual (estilo FEA) */}
+      <div
+        className="mt-3 h-2.5 w-full rounded-sm"
+        style={{
+          background:
+            "linear-gradient(90deg,#0d0887,#0052f0,#00b3f2,#1ad980,#59d933,#d9eb1a,#ff9e00,#fa4008,#c7080d)",
+        }}
+        aria-hidden
+      />
+      <div className="mt-1 flex justify-between text-[0.6rem] text-[var(--color-fg-dim)]">
+        <span>−{(sigma / 1e6).toFixed(0)} MPa</span>
+        <span>{t.hero.hud.compression}</span>
+        <span>0</span>
+        <span>{t.hero.hud.tension}</span>
+        <span>+{(sigma / 1e6).toFixed(0)} MPa</span>
+      </div>
     </div>
   );
 }

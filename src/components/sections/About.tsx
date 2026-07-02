@@ -69,7 +69,7 @@ export function About() {
           <dl className="grid grid-cols-2 gap-x-6 gap-y-10 border-t border-[var(--color-border)] pt-12 md:grid-cols-4">
             {t.about.stats.map((s) => (
               <div key={s.label}>
-                <dt className="font-display text-3xl tracking-tight text-[var(--color-fg)] md:text-4xl">
+                <dt className="font-display text-4xl font-bold tracking-tight text-[var(--color-fg)] md:text-6xl">
                   {s.value}
                 </dt>
                 <dd className="caption mt-2 text-[var(--color-fg-muted)]">
