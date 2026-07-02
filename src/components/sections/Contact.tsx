@@ -1,12 +1,26 @@
 "use client";
 
+import { useState } from "react";
 import { ScrollReveal } from "@/components/common/ScrollReveal";
 import { ContactForm } from "@/components/sections/ContactForm";
 import { RevealHeading } from "@/components/ui/RevealHeading";
 import { useLang } from "@/i18n/LangProvider";
 
+const EMAIL = "fischer.paez@gmail.com";
+
 export function Contact() {
   const { t, lang } = useLang();
+  const [copied, setCopied] = useState(false);
+
+  const copyEmail = async () => {
+    try {
+      await navigator.clipboard.writeText(EMAIL);
+      setCopied(true);
+      window.setTimeout(() => setCopied(false), 2200);
+    } catch {
+      /* clipboard bloqueado — link mailto ao lado cobre */
+    }
+  };
 
   return (
     <section
@@ -58,11 +72,20 @@ export function Contact() {
               </a>{" "}
               ·{" "}
               <a
-                href="mailto:fischer.paez@gmail.com"
+                href={`mailto:${EMAIL}`}
                 className="text-[var(--color-accent)] underline-offset-4 hover:underline"
               >
                 Email
-              </a>
+              </a>{" "}
+              ·{" "}
+              <button
+                type="button"
+                onClick={copyEmail}
+                data-cursor="link"
+                className="text-[var(--color-accent)] underline-offset-4 hover:underline"
+              >
+                {copied ? t.contact.copied : t.contact.copy}
+              </button>
             </p>
           </ScrollReveal>
 

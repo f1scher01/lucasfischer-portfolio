@@ -17,6 +17,7 @@ import { SceneLayer } from "@/components/webgl/SceneLayer";
 import { Cursor } from "@/components/ui/Cursor";
 import { Preloader } from "@/components/preloader/Preloader";
 import { LangProvider } from "@/i18n/LangProvider";
+import { ScrollProgress } from "@/components/common/ScrollProgress";
 import "./globals.css";
 
 // JSON-LD Person — dados estruturados p/ Google (schema.org)
@@ -72,6 +73,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         </a>
         <SceneLayer />
         <LangProvider>
+          <ScrollProgress />
           <SmoothScroll>
             <Nav />
             <main id="main" className="relative z-10">
