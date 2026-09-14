@@ -1,7 +1,7 @@
 import { ImageResponse } from "@vercel/og";
 
 export const runtime = "edge";
-export const alt = "Lucas Fischer — Mechanical Engineer & Design Engineer";
+export const alt = "Lucas Fischer Paez · Mechanical Engineering Student";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
@@ -82,7 +82,7 @@ export default function OpengraphImage() {
               color: "#a0a6ad",
             }}
           >
-            Mechanical · Design · Engineer
+            Mechanical Engineering Student
           </div>
 
           <div
@@ -93,7 +93,7 @@ export default function OpengraphImage() {
               fontFamily: "monospace",
             }}
           >
-            Euler-Bernoulli em tempo real · IMT · São Paulo
+            Physics · Data · Code · IMT · São Paulo
           </div>
         </div>
       </div>

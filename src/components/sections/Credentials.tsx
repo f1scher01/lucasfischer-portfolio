@@ -5,33 +5,6 @@ import { RevealHeading } from "@/components/ui/RevealHeading";
 import { SkewGroup } from "@/components/ui/SkewGroup";
 import { useLang } from "@/i18n/LangProvider";
 
-const GROUPS = [
-  {
-    title: "Engenharia & CAE",
-    items: [
-      "Dimensionamento e Otimização Estrutural Veicular",
-      "Modelamento de Conjuntos Mecânicos (NX)",
-      "3DExperience — Introdução ao CATIA",
-      "Motores de Combustão Interna de Veículos",
-    ],
-  },
-  {
-    title: "Métodos, Dados & Gestão",
-    items: [
-      "Lean Six Sigma — Green Belt",
-      "Telemetria para Competições Acadêmicas",
-      "A Bolsa de Valores no Brasil e seus Ativos Financeiros",
-    ],
-  },
-  {
-    title: "Extensão & Idiomas",
-    items: [
-      "Projeto Integrador Extensionista (MC-1)",
-      "Introdução à Língua Francesa (A1.1)",
-    ],
-  },
-];
-
 export function Credentials() {
   const { t, lang } = useLang();
 
@@ -44,9 +17,7 @@ export function Credentials() {
         <ScrollReveal className="mb-12 flex items-center gap-4">
           <span className="font-mono text-sm text-[var(--color-accent)]">05</span>
           <span className="h-px flex-1 bg-[var(--color-border)]" />
-          <p className="caption text-[var(--color-fg-muted)]">
-            {t.credentials.eyebrow}
-          </p>
+          <p className="caption text-[var(--color-fg-muted)]">{t.credentials.eyebrow}</p>
         </ScrollReveal>
 
         <div className="grid gap-12 md:grid-cols-12">
@@ -58,30 +29,24 @@ export function Credentials() {
             />
             <p className="mt-4 text-[var(--color-fg-muted)]">
               {t.credentials.desc1}
-              <span className="text-[var(--color-fg)]">
-                {t.credentials.descStrong}
-              </span>
+              <span className="text-[var(--color-fg)]">{t.credentials.descStrong}</span>
               {t.credentials.desc2}
             </p>
           </ScrollReveal>
 
           <SkewGroup className="space-y-12 md:col-span-7 md:col-start-6">
-            {GROUPS.map((g, gi) => (
+            {t.credentials.groups.map((g, gi) => (
               <ScrollReveal key={g.title} delay={gi * 0.08}>
-                <h3 className="caption mb-5 text-[var(--color-accent)]">
-                  {t.credentials.groups[gi] ?? g.title}
-                </h3>
+                <h3 className="caption mb-5 text-[var(--color-accent)]">{g.title}</h3>
                 <ul className="space-y-4">
                   {g.items.map((c) => (
                     <li
-                      key={c}
-                      className="flex items-baseline gap-4 border-b border-[var(--color-border)] pb-4"
+                      key={c.name}
+                      className="flex flex-col gap-1 border-b border-[var(--color-border)] pb-4 sm:flex-row sm:items-baseline sm:gap-4"
                     >
-                      <span className="font-editorial text-xl leading-snug md:text-2xl">
-                        {c}
-                      </span>
-                      <span className="ml-auto shrink-0 font-mono text-xs text-[var(--color-fg-dim)]">
-                        40 h
+                      <span className="font-editorial text-xl leading-snug md:text-2xl">{c.name}</span>
+                      <span className="shrink-0 font-mono text-xs text-[var(--color-fg-dim)] sm:ml-auto sm:text-right">
+                        {c.meta}
                       </span>
                     </li>
                   ))}

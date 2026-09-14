@@ -1,7 +1,7 @@
 "use client";
 
 import { motion, useReducedMotion, type Variants } from "motion/react";
-import type { JSX } from "react";
+import { useEffect, useState, type JSX } from "react";
 
 export interface RevealSegment {
   text: string;
@@ -41,7 +41,13 @@ export function RevealHeading({
   as: Tag = "h2",
   className,
 }: RevealHeadingProps) {
-  const reduced = useReducedMotion();
+  // useReducedMotion() é null no servidor e pode ser true no primeiro render do
+  // cliente; decidir o ramo antes de montar gera erro de hidratação (#418).
+  // Servidor e hidratação usam o mesmo markup; a versão estática entra após montar.
+  const prefersReduced = useReducedMotion();
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => setMounted(true), []);
+  const reduced = mounted && prefersReduced;
   const label = segments.map((s) => s.text).join("");
 
   if (reduced) {

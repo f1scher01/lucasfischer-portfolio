@@ -1,25 +1,26 @@
 /**
- * Ticker infinito estilo site de motorsport — termos técnicos neutros
- * (iguais em PT/EN). CSS puro; congela sob prefers-reduced-motion
- * (regra global zera animation-duration).
+ * Ticker infinito com termos técnicos neutros (iguais em todos os idiomas).
+ * CSS puro; congela sob prefers-reduced-motion (regra global zera animation-duration).
  */
 const TERMS = [
-  "VEHICLE DYNAMICS",
   "EULER–BERNOULLI",
   "FEA",
-  "CAD / CAE",
-  "TELEMETRIA",
-  "FSAE",
-  "NEXT.JS",
-  "REACT THREE FIBER",
-  "SOLIDWORKS",
   "ANSYS",
+  "CAD / CAE",
+  "GRANTA EDUPACK",
+  "PYTHON",
+  "NETCDF",
+  "GDAL",
+  "QGIS",
+  "SIH/SUS",
+  "INFLUXDB",
+  "GRAFANA",
 ];
 
 export function Marquee() {
-  const row = TERMS.map((t2, i) => (
+  const row = TERMS.map((term, i) => (
     <span key={i} className="mx-6 inline-flex items-center gap-6">
-      <span>{t2}</span>
+      <span>{term}</span>
       <span className="text-[var(--color-accent)]">·</span>
     </span>
   ));

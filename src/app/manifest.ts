@@ -2,27 +2,18 @@ import type { MetadataRoute } from "next";
 
 export default function manifest(): MetadataRoute.Manifest {
   return {
-    name: "Lucas Fischer — Mechanical & Design Engineer",
-    short_name: "LF Portfolio",
+    name: "Lucas Fischer Paez · Portfolio",
+    short_name: "Lucas Fischer",
     description:
-      "Engenheiro mecânico em formação (IMT). Experiências digitais com precisão de simulação.",
+      "Estudante de Engenharia Mecânica no Instituto Mauá de Tecnologia. Física, dados e código.",
     start_url: "/",
     display: "standalone",
     background_color: "#0d0f14",
     theme_color: "#0d0f14",
     icons: [
       { src: "/icon.svg", sizes: "any", type: "image/svg+xml" },
-      {
-        src: "/apple-touch-icon.png",
-        sizes: "180x180",
-        type: "image/png",
-      },
-      {
-        src: "/maskable-icon.png",
-        sizes: "512x512",
-        type: "image/png",
-        purpose: "maskable",
-      },
+      { src: "/apple-touch-icon.png", sizes: "180x180", type: "image/png" },
+      { src: "/maskable-icon.png", sizes: "512x512", type: "image/png", purpose: "maskable" },
     ],
   };
 }

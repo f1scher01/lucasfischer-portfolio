@@ -18,4 +18,4 @@ Se você encontrou uma vulnerabilidade neste site, agradeço o reporte responsá
 
 - `lucasfischer-portfolio.vercel.app` e este repositório.
 - Fora de escopo: ataques de negação de serviço volumétricos, engenharia
-  social, e issues em serviços de terceiros (Vercel, Resend, Cloudflare).
+  social, e issues em serviços de terceiros (Vercel, GitHub).

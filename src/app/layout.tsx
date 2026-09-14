@@ -25,12 +25,13 @@ const personJsonLd = {
   "@context": "https://schema.org",
   "@type": "Person",
   name: "Lucas Fischer Paez",
-  jobTitle: "Mechanical Engineer & Design Engineer",
+  jobTitle: "Mechanical Engineering Student",
+  description: "Mechanical engineering student working with physics, data and code.",
   alumniOf: "Instituto Mauá de Tecnologia",
   url: "https://lucasfischer-portfolio.vercel.app",
   sameAs: [
-    "https://github.com/lucasf22games-png",
-    "https://linkedin.com/in/lucasfischerpaez",
+    "https://github.com/f1scher01",
+    "https://www.linkedin.com/in/lucasfischerpaez",
   ],
   knowsLanguage: ["pt-BR", "es", "en", "fr"],
 };
@@ -38,14 +39,14 @@ const personJsonLd = {
 export const metadata: Metadata = {
   metadataBase: new URL("https://lucasfischer-portfolio.vercel.app"),
   title: {
-    default: "Lucas Fischer — Mechanical Engineer & Design Engineer",
-    template: "%s · Lucas Fischer",
+    default: "Lucas Fischer Paez · Mechanical Engineering Student",
+    template: "%s · Lucas Fischer Paez",
   },
   description:
-    "Engenheiro mecânico em formação no IMT. Construo experiências digitais com a mesma precisão de uma simulação por elementos finitos.",
+    "Estudante de Engenharia Mecânica no Instituto Mauá de Tecnologia. Projetos com dados reais de satélite, qualidade do ar e saúde, telemetria, análise estrutural e CAD.",
   openGraph: {
-    title: "Lucas Fischer",
-    description: "Mechanical Engineer & Design Engineer",
+    title: "Lucas Fischer Paez",
+    description: "Mechanical engineering student · physics, data and code",
     type: "website",
     locale: "pt_BR",
   },

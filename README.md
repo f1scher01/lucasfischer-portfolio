@@ -1,157 +1,52 @@
-# Lucas Fischer — Portfolio (Design Engineer)
+# Lucas Fischer Paez · Portfolio
 
-Portfólio pessoal premium. Stack: **Next.js 15 · React 19 · TypeScript · Tailwind v4 · Motion · GSAP · R3F**.
+**[lucasfischer-portfolio.vercel.app](https://lucasfischer-portfolio.vercel.app)** · PT · EN · FR · ES
 
-Wow moment: **viga em flexão interativa** com cálculo real de tensão e deflexão (Euler-Bernoulli) renderizada em WebGL.
+Portfólio de um estudante de Engenharia Mecânica do Instituto Mauá de Tecnologia. O destaque técnico
+é a viga do topo: um campo de tensões de flexão calculado pela teoria de Euler-Bernoulli a cada
+quadro, a partir da posição do cursor, e renderizado em WebGL.
 
-## Pré-requisitos
+*Portfolio of a Mechanical Engineering student at Instituto Mauá de Tecnologia, Brazil. The hero is
+a simply supported beam whose bending stress field is computed from Euler-Bernoulli theory every
+frame and rendered in WebGL.*
 
-- Node.js 20+ (recomendo 22 LTS)
-- pnpm 9+ (`npm install -g pnpm`)
-- Git
-- Conta na Vercel (deploy) — gratuita
-- (Opcional) Conta na Resend (form de contato) — gratuita até 3000 emails/mês
+## Física da viga
 
-## Setup inicial
+`src/lib/beam-physics.ts` implementa, em TypeScript puro, a viga biapoiada com carga central:
+momento de inércia da seção retangular, tensão de flexão na fibra extrema, deflexão no centro e
+fator de segurança contra o escoamento do aço 1020 (E = 200 GPa, σ_y = 250 MPa). O painel no canto
+superior mostra esses valores em tempo real.
+
+## Stack
+
+Next.js 15 (App Router, geração estática) · React 19 · TypeScript · Tailwind CSS 4 ·
+React Three Fiber · Motion · GSAP · Lenis.
+
+- **Idiomas:** dicionário tipado em `src/i18n/dictionary.ts`. O português é pré-renderizado e os
+  demais idiomas trocam no cliente, com a escolha salva em `localStorage` e cookie. O tipo `Dict`
+  impede que um idioma fique com chave faltando.
+- **Segurança:** site sem formulário e sem segredos, CSP e cabeçalhos em `next.config.ts`, modelo
+  de ameaças em `docs/threat-model.md`.
+- **Acessibilidade:** link para pular a navegação, foco preso no menu mobile e respeito a
+  `prefers-reduced-motion`.
+
+## Rodar localmente
 
 ```bash
-# 1. Instalar deps
 pnpm install
-
-# 2. Adicionar Geist Fonts (Vercel) — pacote separado
-pnpm add geist
-
-# 3. Copiar env
-cp .env.example .env.local
-# editar .env.local com tua RESEND_API_KEY (opcional)
-
-# 4. Rodar dev
-pnpm dev
-# abre http://localhost:3000
+pnpm dev          # http://localhost:3000
+pnpm typecheck
+pnpm build
 ```
 
-Se der erro na primeira execução por causa do React Compiler (experimental), comente em `next.config.ts`:
+## Projetos citados no site
 
-```ts
-experimental: { reactCompiler: false },
-```
+- [cetesb-air-quality-sp](https://github.com/f1scher01/cetesb-air-quality-sp): poluição do ar e saúde na RMSP com GOES-19, CETESB, SIH/SUS e QGIS.
+- [telemetria-veicular-grafana](https://github.com/f1scher01/telemetria-veicular-grafana): simulador de telemetria com InfluxDB e Grafana.
+- [notas-cr-maua-pwa](https://github.com/f1scher01/notas-cr-maua-pwa): aplicativo de notas e coeficiente de rendimento.
 
-## Estrutura
-
-```
-src/
-├── app/
-│   ├── layout.tsx        # Root layout — fontes, providers
-│   ├── page.tsx          # Home — composição das seções
-│   └── globals.css       # Tokens (Tailwind v4) + reset
-├── components/
-│   ├── hero/
-│   │   ├── Hero.tsx        # Composição do hero
-│   │   └── BendingBeam.tsx # 🔥 wow moment — R3F + física real
-│   ├── nav/
-│   │   └── Nav.tsx
-│   ├── sections/         # About, Work, Toolkit, Credentials, Contact
-│   ├── ui/
-│   │   └── MagneticButton.tsx
-│   └── common/
-│       ├── SmoothScroll.tsx  # Lenis
-│       ├── ScrollReveal.tsx  # In-view fade-up
-│       └── Footer.tsx
-└── lib/
-    ├── beam-physics.ts   # Cálculos de viga (puro TS, testável)
-    └── utils.ts          # cn, clamp, lerp
-```
-
-## Workflow recomendado com Claude Code
-
-Abre o repo no Claude Code (`claude` na pasta do projeto). Use estes prompts como ponto de partida:
-
-### 1. Validar setup
-
-> "Roda `pnpm typecheck` e `pnpm build`. Se houver erro, corrige antes de seguir."
-
-### 2. Refinar o BendingBeam
-
-> "Lê `src/components/hero/BendingBeam.tsx` e `src/lib/beam-physics.ts`. Sugere 3 melhorias específicas: (a) visual (iluminação, environment), (b) performance (reduzir alocações no useFrame), (c) UX (touch em mobile, slider opcional). Implementa as duas mais impactantes."
-
-### 3. Implementar OG image dinâmica
-
-> "Cria `app/opengraph-image.tsx` usando `@vercel/og` com runtime edge. Design: nome do Lucas em Geist Sans grande, headline curta, background dark com gradient sutil. Aspect ratio 1200x630."
-
-### 4. Adicionar projetos como MDX
-
-> "Cria `src/app/projects/[slug]/page.tsx` com generateStaticParams + MDX. Crie 1 projeto exemplo em `src/content/projects/maua-racing.mdx` com frontmatter (title, role, year, summary, tech, gallery)."
-
-### 5. Form de contato com Server Action
-
-> "Substitui o link mailto do `Contact.tsx` por um form com Server Action que usa Resend para enviar email. Validar com Zod (nome, email, mensagem). Mostrar estado loading/success/error."
-
-### 6. Performance pass
-
-> "Roda `pnpm build && pnpm start` e abra `http://localhost:3000` em outra aba. Roda Lighthouse no Chrome DevTools (Performance + Accessibility). Reporta as métricas e propõe 5 otimizações concretas."
-
-### 7. Acessibilidade pass
-
-> "Instala `@axe-core/react`. Adiciona em dev mode no `layout.tsx`. Lista todas as violações encontradas e propõe fixes."
-
-### 8. Deploy
-
-> "Comita tudo com mensagem 'feat: initial portfolio v1'. Roda `vercel` para deploy preview. Quando aprovar, `vercel --prod`."
-
-## Convenções de código
-
-- **TypeScript estrito**: nunca `any` sem comentário justificando
-- **Server Components por default**, `"use client"` só quando precisa de hook/event/browser API
-- **Path alias `@/`** para `src/`
-- **Tailwind v4**: tokens em `globals.css` (`@theme`), não em config JS
-- **Motion** importado de `motion/react`, não `framer-motion` (renomeação 2025)
-- **Imports**: relativos para mesma pasta, alias `@/` para fora
-
-## Performance budget
-
-| Métrica | Alvo |
-|---|---|
-| LCP | < 1.2s |
-| INP | < 100ms |
-| CLS | < 0.05 |
-| Lighthouse Performance | 95+ |
-| Lighthouse A11y | 100 |
-
-## Deploy
-
-```bash
-# Conectar Vercel uma única vez
-vercel link
-
-# Deploy preview
-vercel
-
-# Production
-vercel --prod
-
-# Domain custom
-vercel domains add fischer.engineer
-```
-
-## Submissão a awards (após deploy)
-
-1. [Awwwards](https://www.awwwards.com/submit/) — submit. Aim: Honors first, então Site of the Day.
-2. [Godly Website](https://godly.website/submit) — discovery rápido
-3. [SiteInspire](https://www.siteinspire.com/contact) — alta curadoria
-4. [Lapa Ninja](https://www.lapa.ninja/contact/) — landing pages
-5. [Httpster](https://httpster.net/contact/) — discovery diário
-
-## Roadmap (depois do v1)
-
-- [ ] OG image dinâmica
-- [ ] Páginas individuais de projetos (MDX)
-- [ ] Form de contato com Server Action + Resend
-- [ ] Light mode toggle
-- [ ] i18n PT/EN
-- [ ] /uses e /manifesto
-- [ ] Blog (próxima iteração)
-- [ ] Submissão Awwwards
+Os sons de motor da bancada virtual vêm do Freesound, sob licença CC0.
 
 ## Licença
 
-Código fonte: MIT. Conteúdo (textos, fotos, casos): © Lucas Fischer Paez.
+Código: MIT. Textos e conteúdo: © Lucas Fischer Paez.

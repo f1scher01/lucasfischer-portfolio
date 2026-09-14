@@ -2,25 +2,21 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
+import { useLang } from "@/i18n/LangProvider";
 
-const LINKS = [
-  { id: "about", label: "About" },
-  { id: "work", label: "Work" },
-  { id: "toolkit", label: "Toolkit" },
-  { id: "credentials", label: "Credentials" },
-  { id: "contact", label: "Contact" },
-];
+const LINKS = ["about", "work", "toolkit", "credentials", "contact"] as const;
 
 /**
  * Menu mobile full-screen: abre com clip-path circle a partir do canto
  * sup. direito (600ms, out-expo), links grandes em stagger. ESC fecha,
- * foco preso no overlay (trap manual), aria-modal. Só aparece < md.
+ * foco preso no overlay (trap manual), aria-modal. Só aparece < lg.
  */
 export function MobileMenu() {
   const [open, setOpen] = useState(false);
   const overlayRef = useRef<HTMLDivElement>(null);
   const buttonRef = useRef<HTMLButtonElement>(null);
   const reduced = useReducedMotion();
+  const { t } = useLang();
 
   const close = useCallback(() => {
     setOpen(false);
@@ -53,26 +49,25 @@ export function MobileMenu() {
       }
     };
     document.addEventListener("keydown", onKey);
-    // foco inicial no primeiro link
-    const t = window.setTimeout(() => {
+    const timer = window.setTimeout(() => {
       overlayRef.current?.querySelector<HTMLElement>("a[href]")?.focus();
     }, 50);
 
     return () => {
       document.documentElement.style.overflow = "";
       document.removeEventListener("keydown", onKey);
-      window.clearTimeout(t);
+      window.clearTimeout(timer);
     };
   }, [open, close]);
 
   return (
-    <div className="md:hidden">
+    <div className="lg:hidden">
       <button
         ref={buttonRef}
         type="button"
         aria-expanded={open}
         aria-controls="mobile-menu"
-        aria-label={open ? "Fechar menu" : "Abrir menu"}
+        aria-label={open ? t.nav.menuClose : t.nav.menuOpen}
         onClick={() => setOpen((v) => !v)}
         className="relative z-[75] flex h-10 w-10 flex-col items-center justify-center gap-1.5"
       >
@@ -95,7 +90,7 @@ export function MobileMenu() {
             id="mobile-menu"
             role="dialog"
             aria-modal="true"
-            aria-label="Navegação"
+            aria-label={t.nav.menuLabel}
             className="fixed inset-0 z-[70] flex flex-col justify-center bg-[var(--color-bg)] px-8"
             initial={
               reduced
@@ -116,9 +111,9 @@ export function MobileMenu() {
           >
             <nav>
               <ul className="space-y-2">
-                {LINKS.map((l, i) => (
+                {LINKS.map((id, i) => (
                   <motion.li
-                    key={l.id}
+                    key={id}
                     initial={reduced ? false : { opacity: 0, y: 24 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{
@@ -128,11 +123,11 @@ export function MobileMenu() {
                     }}
                   >
                     <a
-                      href={`#${l.id}`}
+                      href={`#${id}`}
                       onClick={close}
                       className="font-display block py-2 text-5xl tracking-tight text-[var(--color-fg)] transition-colors hover:text-[var(--color-accent)]"
                     >
-                      {l.label}
+                      {t.nav.sections[id]}
                     </a>
                   </motion.li>
                 ))}

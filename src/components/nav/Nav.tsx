@@ -4,14 +4,15 @@ import { useEffect, useState } from "react";
 import { motion } from "motion/react";
 import { cn } from "@/lib/utils";
 import { useLang } from "@/i18n/LangProvider";
+import { LanguageSwitch } from "./LanguageSwitch";
 import { MobileMenu } from "./MobileMenu";
 
-const SECTIONS = ["about", "work", "toolkit", "credentials", "contact"];
+export const SECTIONS = ["about", "work", "toolkit", "credentials", "contact"] as const;
 
 export function Nav() {
   const [scrolled, setScrolled] = useState(false);
   const [active, setActive] = useState<string | null>(null);
-  const { lang, t, toggle } = useLang();
+  const { t } = useLang();
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 40);
@@ -20,7 +21,7 @@ export function Nav() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  // Active section via IntersectionObserver
+  // Seção ativa via IntersectionObserver
   useEffect(() => {
     const observers: IntersectionObserver[] = [];
     SECTIONS.forEach((id) => {
@@ -50,15 +51,15 @@ export function Nav() {
           : "border-b border-transparent",
       )}
     >
-      <div className="container-x flex h-16 items-center justify-between">
+      <div className="container-x flex h-16 items-center justify-between gap-4">
         <a
           href="#hero"
-          className="font-display text-lg tracking-tight hover:text-[var(--color-accent)] transition-colors"
+          className="font-display text-lg tracking-tight transition-colors hover:text-[var(--color-accent)]"
         >
           LF.
         </a>
 
-        <ul className="hidden gap-8 md:flex">
+        <ul className="hidden gap-7 lg:flex">
           {SECTIONS.map((s) => (
             <li key={s}>
               <a
@@ -71,26 +72,18 @@ export function Nav() {
                     : "text-[var(--color-fg-muted)]",
                 )}
               >
-                {s}
+                {t.nav.sections[s]}
               </a>
             </li>
           ))}
         </ul>
 
-        <div className="flex items-center gap-5">
-          <button
-            type="button"
-            onClick={toggle}
-            data-cursor="link"
-            aria-label={lang === "pt" ? "Switch to English" : "Mudar para português"}
-            className="caption text-[var(--color-fg-muted)] transition-colors hover:text-[var(--color-accent)]"
-          >
-            {lang === "pt" ? "EN" : "PT"}
-          </button>
+        <div className="flex items-center gap-4">
+          <LanguageSwitch />
           <a
             href="#contact"
             data-cursor="link"
-            className="caption hidden text-[var(--color-fg)] underline-offset-4 hover:underline md:inline"
+            className="caption hidden text-[var(--color-fg)] underline-offset-4 hover:underline lg:inline"
           >
             {t.nav.getInTouch}
           </a>

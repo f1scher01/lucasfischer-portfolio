@@ -11,7 +11,7 @@ export function Disciplines() {
     <section className="relative border-t border-[var(--color-border)] bg-[var(--color-bg)] py-32">
       <div className="container-x">
         <ScrollReveal className="mb-12 flex items-center gap-4">
-          <span className="font-mono text-sm text-[var(--color-accent)]">02</span>
+          <span className="font-mono text-sm text-[var(--color-accent)]">03</span>
           <span className="h-px flex-1 bg-[var(--color-border)]" />
           <p className="caption text-[var(--color-fg-muted)]">
             {t.disciplines.eyebrow}

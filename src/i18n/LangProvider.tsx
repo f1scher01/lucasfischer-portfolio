@@ -8,46 +8,57 @@ import {
   useState,
   type ReactNode,
 } from "react";
-import { dict, type Dict, type Lang } from "./dictionary";
+import { dict, HTML_LANG, LANGS, type Dict, type Lang } from "./dictionary";
 
 interface LangContextValue {
   lang: Lang;
   t: Dict;
-  toggle: () => void;
+  setLang: (lang: Lang) => void;
 }
 
 const LangContext = createContext<LangContextValue>({
   lang: "pt",
   t: dict.pt,
-  toggle: () => {},
+  setLang: () => {},
 });
+
+const isLang = (value: unknown): value is Lang =>
+  typeof value === "string" && (LANGS as readonly string[]).includes(value);
 
 /**
  * i18n leve client-side: PT é o default pré-renderizado (SSG preservado);
  * a preferência vive em localStorage + cookie e troca as strings na hidratação.
  */
 export function LangProvider({ children }: { children: ReactNode }) {
-  const [lang, setLang] = useState<Lang>("pt");
+  const [lang, setLangState] = useState<Lang>("pt");
 
   useEffect(() => {
-    const stored =
-      (localStorage.getItem("lang") as Lang | null) ??
-      (document.cookie.match(/(?:^|; )lang=(pt|en)/)?.[1] as Lang | null);
-    if (stored === "en" || stored === "pt") setLang(stored);
+    let stored: string | null | undefined = null;
+    try {
+      stored = localStorage.getItem("lang");
+    } catch {
+      /* storage bloqueado: cai no cookie */
+    }
+    stored ??= document.cookie.match(/(?:^|; )lang=(pt|en|fr|es)/)?.[1];
+    if (isLang(stored)) {
+      setLangState(stored);
+      document.documentElement.lang = HTML_LANG[stored];
+    }
   }, []);
 
-  const toggle = useCallback(() => {
-    setLang((prev) => {
-      const next: Lang = prev === "pt" ? "en" : "pt";
+  const setLang = useCallback((next: Lang) => {
+    setLangState(next);
+    try {
       localStorage.setItem("lang", next);
-      document.cookie = `lang=${next}; path=/; max-age=31536000; SameSite=Lax; Secure`;
-      document.documentElement.lang = next === "pt" ? "pt-BR" : "en";
-      return next;
-    });
+    } catch {
+      /* sem storage: o cookie abaixo mantém a escolha */
+    }
+    document.cookie = `lang=${next}; path=/; max-age=31536000; SameSite=Lax; Secure`;
+    document.documentElement.lang = HTML_LANG[next];
   }, []);
 
   return (
-    <LangContext.Provider value={{ lang, t: dict[lang], toggle }}>
+    <LangContext.Provider value={{ lang, t: dict[lang], setLang }}>
       {children}
     </LangContext.Provider>
   );
